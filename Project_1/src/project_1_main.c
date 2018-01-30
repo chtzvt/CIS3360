@@ -8,6 +8,5 @@
 
 int main(){
   puts("hello world");
-  this is bad;
   return 0;
 }
