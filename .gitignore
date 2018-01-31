@@ -1,9 +1,6 @@
 */bin/*
-*/bin/*.o
 *.o
 .idea/
 cmake-build-debug/
 .CMakeLists.txt
-
 /CMakeLists.txt
-
