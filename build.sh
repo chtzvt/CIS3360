@@ -4,6 +4,9 @@
 # (c) 2017 Charlton Trezevant
 # MIT License
 
+# Set to 1 to print platform, system, and language version information
+PRINT_SYSINFO=1
+
 # Set to 1 to enable static code analysis before building (via scan-build)
 # Linting will be run if RUN_LINTER != 0, and scan-build is available on the system
 RUN_LINTER=1
@@ -14,32 +17,28 @@ BLACKLIST_DIRS="./Template"
 # How many commits back should we check for changes to files? ("lower bound", default 10 commits)
 COMMIT_RANGE_LBOUND=10
 
-# Find subdirectories with new changes and makefiles (which we can then build and test), excluding the blacklist
-# CHANGED_DIRS will collect the list of new directories that contain new changes (in the past $COMMIT_RANGE_LBOUND commits) to .c source files
-# This will ensure that Travis attempts to build only the latest changes, which is what we want
-CHANGED_DIRS=`git diff --name-only HEAD~$COMMIT_RANGE_LBOUND..HEAD '*.c' | cut -d '/' -f1 | sed -e 's/^/.\//'`
-
-# We'll keep track of the number of build failures here
-FAILED_BUILDS=""
-
-OS_INFO="$(uname -a)"
-# Semi-naive platform detection
-if [[ "$(uname -a | grep Linux)" == "" ]]
+if [ $PRINT_SYSINFO == 1 ]
 then
-  # Non-linux (Darwin, BSD)
-	CPU_INFO=$(sysctl -n machdep.cpu.brand_string | awk '{print "\t" $0}')
-else
-  # Linux
-	CPU_INFO=$(lscpu | awk '{print "\t" $0}')
-fi
+  
+  OS_INFO="$(uname -a)"
+  
+  # Semi-naive platform detection
+  if [[ "$(uname -a | grep Linux)" == "" ]]
+  then
+    # Non-linux (Darwin, BSD)
+  	CPU_INFO=$(sysctl -n machdep.cpu.brand_string | awk '{print "\t" $0}')
+  else
+    # Linux
+  	CPU_INFO=$(lscpu | awk '{print "\t" $0}')
+  fi
 
-# Retrieve version strings from desired languages/tooling
-GCC_VER="$(gcc --version 2>&1 | awk '{print "\t" $0}')" &> /dev/null 2>&1
-MAKE_VER=`make --version | grep "GNU Make" | awk '{print "\t" $0}'`
-#JAVA_VER="$(java -version 2>&1 | awk '{print "\t" $0}')"
-#PYTHON_VER="$(python --version 2>&1 | awk '{print "\t" $0}')"
-#RUBY_VER="$(ruby --version 2>&1 | awk '{print "\t" $0}')"
-#NODE_VER="$(node --version 2>&1 | awk '{print "\t" $0}')"
+  # Retrieve version strings from desired languages/tooling
+  GCC_VER="$(gcc --version 2>&1 | awk '{print "\t" $0}')" &> /dev/null 2>&1
+  MAKE_VER=`make --version | grep "GNU Make" | awk '{print "\t" $0}'`
+  #JAVA_VER="$(java -version 2>&1 | awk '{print "\t" $0}')"
+  #PYTHON_VER="$(python --version 2>&1 | awk '{print "\t" $0}')"
+  #RUBY_VER="$(ruby --version 2>&1 | awk '{print "\t" $0}')"
+  #NODE_VER="$(node --version 2>&1 | awk '{print "\t" $0}')"
 
 echo -e "
 
@@ -62,6 +61,15 @@ Language versions:
       Make:
       $MAKE_VER
 "
+fi
+
+# Find subdirectories with new changes and makefiles (which we can then build and test), excluding the blacklist
+# CHANGED_DIRS will collect the list of new directories that contain new changes (in the past $COMMIT_RANGE_LBOUND commits) to .c source files
+# This will ensure that Travis attempts to build only the latest changes, which is what we want
+CHANGED_DIRS=`git diff --name-only HEAD~$COMMIT_RANGE_LBOUND..HEAD '*.c' | cut -d '/' -f1 | sed -e 's/^/.\//'`
+
+# We'll keep track of the number of build failures here
+FAILED_BUILDS=""
 
 # Only attempt to run builds if there are changes
 # This happens by default, but this fixes a bug where the script
@@ -93,6 +101,7 @@ then
         echo -e ">>> FINISHED: static analysis (scan-build)"
       else
         echo -e "\n>>> !!SKIPPING: static analysis (RUN_LINTER is false or scan-build is not available)"
+        LINT_PASS=0
       fi
 
       TESTED=0
