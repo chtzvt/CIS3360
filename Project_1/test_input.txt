@@ -1,0 +1,1 @@
+../plainText1.txt "../viginere key1.txt"
