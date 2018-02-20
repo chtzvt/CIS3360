@@ -1,5 +1,5 @@
 # Grok AutoBuild - A Useful Makefile
-# (c) 2017 Charlton Trezevant - MIT License
+# (c) 2018 Charlton Trezevant - MIT License
 
 # Overview:
 # 	The stated goal of Grok is to introduce the basic concepts of automation
@@ -39,8 +39,10 @@
 # 	your compiled code. This is useful for debugging purposes, provided that you
 # 	place the inputs required for reaching a success state in the file ./test_input.txt.
 # How it works
-# 	Given the file ./test_input.txt, Grok will interactively test your program by
-# 	executing it and piping the input provided in ./test_input.txt to your program.
+# 	Given the files ./test_input.txt (and optionally ./test_args.txt), Grok will interactively
+#   test your program by executing it and piping the input provided in ./test_input.txt to your program.
+#   If you supply arguments in test_args.txt, the contents of that file will be passed in as arguments
+#   when your program is executed.
 # What this means
 # 	Given the set of inputs that will (or should) produce a "successful" run of
 # 	your program, Grok can easily run repeated tests against your code. Rather than
@@ -60,11 +62,12 @@
 # 	To easily create this file, use 'make testfile'
 
 # Grok script version number
-AB_VERSION=1.0
+AB_VERSION=1.1
 # The full path to the current project's main source file
 PROJSRC=$(wildcard ${CURDIR}/src/*_main.c)
 # The "human" name of the current project (e.g. foo_main.c becomes foo)
 PROJNAME=$(subst _main.c,,$(subst ${CURDIR}/src/,,$(PROJSRC)))
+
 
 # Default Make rules to build your project.
 # Run any of these (make all or make projectname or make build, even just 'make') if
@@ -85,7 +88,7 @@ ifneq ("$(PROJSRC)","")
 	$(info Make (Grok - Compile): Building "${PROJNAME}" from $^...)
 # Create a directory for our compiled binaries (./bin/)
 # -p tells makedir not to complain if that directory already exists
-	mkdir -p ${CURDIR}/bin/
+	@mkdir -p ${CURDIR}/bin/
 # Call GCC to compile your source(s)
 # This will produce a binary in ./bin/, with the name of your project
 # $@ is the project name foo, $^ is the full path to the source file foo_main.c
@@ -93,7 +96,7 @@ ifneq ("$(PROJSRC)","")
 	gcc -std=c99 -o ${CURDIR}/bin/$(PROJNAME) $^
 # Set the execuable bit on the binary produced by GCC
 # In some cases, this may not always be necessary. But we'll do it anyways.
-	chmod +x ${CURDIR}/bin/$(PROJNAME)
+	@chmod +x ${CURDIR}/bin/$(PROJNAME)
 else
 # Otherwise, print an error message
 	$(info Make (Grok - Compile): ERROR: Could not find the main source file!)
@@ -106,9 +109,20 @@ endif
 # This rule provides an alias to easily compile and execute your project.
 # Rather than typing the full path to the executable at your shell, you can
 # simply use 'make run'.
+
+# Support for passing arguments to "make run"
+# i.e. make run [your arguments here]
+# Many thanks to https://stackoverflow.com/a/14061796
+ifeq (run,$(firstword $(MAKECMDGOALS)))
+  # use the rest as arguments for "run"
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  # ...and turn them into do-nothing targets
+  $(eval $(RUN_ARGS):;@:)
+endif
+
 run:all
 	$(info Make (Grok - Run Project): Running "${PROJNAME}"...)
-	${CURDIR}/bin/$(PROJNAME)
+	${CURDIR}/bin/$(PROJNAME) $(RUN_ARGS)
 
 
 # Rule for running tests
@@ -118,11 +132,18 @@ run:all
 # Grok will not attempt to run tests.
 # See the top of this file for documentation regarding the test input file.
 test:$(PROJNAME)
-# If the file ./test_input.txt exists
 ifneq ("$(wildcard ${CURDIR}/test_input.txt)","")
-	$(info Make (Grok - Test): Testing "${PROJNAME}" against provided input from ${CURDIR}/test_input.txt...)
-# Run the freshly compiled binary, piping in the contents of test_input as user input
+	$(info Make (Grok - Test): Testing "${PROJNAME}" with provided input from ${CURDIR}/test_input.txt...)
+
+# Depending on whether or not arguments are provided for the project in ./test_args.txt, Grok will automatically
+# pass those in when your program is executed
+ifneq ("$(wildcard ${CURDIR}/test_args.txt)","")
+	$(info Make (Grok - Test): Will test "${PROJNAME}" using arguments provided in ${CURDIR}/test_args.txt...)
+	${CURDIR}/bin/$(PROJNAME) `cat ${CURDIR}/test_args.txt` < ${CURDIR}/test_input.txt
+else
 	${CURDIR}/bin/$(PROJNAME) < ${CURDIR}/test_input.txt
+endif
+
 	$(info Make (Grok - Test): Tests for "${PROJNAME}" have finished.)
 else
 	$(info Make (Grok - Test): Will not test "${PROJNAME}", as no test input is available! (${CURDIR}/test_input.txt doesn't exist))
