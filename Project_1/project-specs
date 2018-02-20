@@ -1,0 +1,18 @@
+1. Read the key input file containing the Viginere key. This file may contain up to 512 characters of upper and lower case text - to include printable characters and white space. All upper and lower case letters should be converted to lower case only. Any non-alphabetic characters should be ignored, this includes spaces, tabs, and new line characters. It is likely there will be less than 512 characters in the input key file. Please note that if the input files are longer than 512 characters, process only the first 512 characters - even if they are non-alphabetic characters.
+
+2. Read the second input file containing the plain text. The plain text file is to be processed the same as the Viginere key.
+
+3. Produce the encrypted output, the ciphertext, as a product of the converted key text and the converted plain text. (Yes, the output will be in lower case only.)
+
+NB Output specifications, grading rubrics, and test scripts are forthcoming.
+
+The program can be written in C, C++, or Java.
+
+
+
+Sample Run Command
+
+C or C++ program:
+
+prompt> ./viginere key1.txt plainText1.txt
+
