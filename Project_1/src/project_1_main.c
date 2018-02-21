@@ -29,10 +29,20 @@ int main(int argc, char** argv) {
     }
     // opens and catches for bad files
     puts("the plaintext input is");
-    while (fgets(plaintext, MAXSIZE, fp) != NULL) {
-    printf("%s", plaintext);
+ //   while (fgets(plaintext, MAXSIZE, fp) != NULL) {
+ //   printf("%s", plaintext);
+
         // break; //fixes weird data corruption issue
-}
+// }
+    int i=0;
+    char x;
+    while  ( ( x = fgetc( fp ) ) != EOF )
+    {
+        //printf( "%c", x );
+        plaintext[i]=x;
+        i++;
+    }
+    printf("%s", plaintext);
     // prints out file to io stream
     fclose(fp);
 
@@ -49,8 +59,17 @@ int main(int argc, char** argv) {
         }
     // opens and catches for bad files
         puts("the key input is");
-        while (fgets(keytext, MAXSIZE, key) != NULL)
-            printf("%s", keytext);
+       // while (fgets(keytext, MAXSIZE, key) != NULL)
+         //   printf("%s", keytext);
+
+     i=0;
+
+    while  ( ( x = fgetc( key) ) != EOF )
+    {
+        printf( "%c", x );
+        keytext[i]=x;
+        i++;
+    }
     // prints out what was inputed by user into io stream
         fclose(key);
 
@@ -59,17 +78,26 @@ int main(int argc, char** argv) {
     removespecial(plaintext);
     removespecial(keytext);
 
-    removeszeros(plaintext);
-    removeszeros(keytext);
+    char  nospecialtext[MAXSIZE];
+    char  nospecialkey[MAXSIZE];
+    char * returned;
+     returned = removeszeros(plaintext)  ;
+    strcpy(nospecialtext,returned);
+    free(returned);
 
-    stringtolower(plaintext);
+    returned = removeszeros(keytext);
+    strcpy(nospecialkey,returned);
 
-    stringtolower(keytext);
+
+
+    stringtolower(nospecialtext);
+
+    stringtolower(nospecialkey);
 
     puts("the sanitized plaintext is");
-    printf("%s \n", plaintext);
+    printf("%s \n", nospecialtext);
     puts("the sanitized keytext is");
-    printf("%s \n", keytext);
+    printf("%s \n", nospecialkey);
 // */
     return 0;
 }
