@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #endif //CIS3360_STRINGHANDLE_H
 #define MAXSIZE 1000
 
