@@ -7,11 +7,13 @@
 #include <ctype.h>
 #endif //CIS3360_STRINGHANDLE_H
 #define MAXSIZE 1000
+
+// replaces all special charecter  with '0'
 void removespecial(char special[]) {
     int i = 0;
     while (i != MAXSIZE) {
         if(  special[i]==0)
-            break;
+            break; // i know its bad practice but it pervents the null termninating string from being deleted
         if ((isalpha(special[i]) == 0)&&special[i]!=0) {
             special[i] = '0';
         }
@@ -20,6 +22,7 @@ void removespecial(char special[]) {
         i++;
     }
 }
+// goes through and changes all upper case letters to the lower case version
 void stringtolower(char upper[]){
     int i=0 ;
     while(i != MAXSIZE){
@@ -29,7 +32,7 @@ void stringtolower(char upper[]){
     }
 
 }
-
+// goes through the input string and prints it to the output string however it ignores any zeros when copying
 char * removeszeros(char zeroed[]) {
     char fixed[MAXSIZE];
     int i = 0;
@@ -44,8 +47,7 @@ char * removeszeros(char zeroed[]) {
 
         i++;
     }
-  //  j++;
-    //fixed[j]=0;
 
+// returns the fixed string but allocates the memory so it does not get freed when function ends note this does not work in windows
     return strdup(fixed);
 }

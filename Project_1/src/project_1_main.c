@@ -74,17 +74,20 @@ int main(int argc, char** argv) {
         fclose(key);
 
  // /*
-// starting to sanitize data not woriking yet
+// starting to sanitize data now working
     removespecial(plaintext);
     removespecial(keytext);
 
     char  nospecialtext[MAXSIZE];
     char  nospecialkey[MAXSIZE];
+    // allocates string for no special charecter version of string
     char * returned;
+    //allocates string for the returned value
      returned = removeszeros(plaintext)  ;
     strcpy(nospecialtext,returned);
+    // copyies the returned value to a local varrible
     free(returned);
-
+// frees the returned value so we can use it again
     returned = removeszeros(keytext);
     strcpy(nospecialkey,returned);
 
