@@ -75,8 +75,7 @@ int main(int argc, char** argv) {
 
  // /*
 // starting to sanitize data now working
-   // removespecial(plaintext);
-   // removespecial(keytext);
+
 
      char  cleanedtext[MAXSIZE];
     char  cleanedkey[MAXSIZE];
@@ -93,14 +92,13 @@ int main(int argc, char** argv) {
     free(returned);
 
 
-  //  stringtolower(nospecialtext);
-
-    // stringtolower(nospecialkey);
 
     puts("the sanitized plaintext is");
-    printf("%s \n", cleanedtext);
+
+    lprintf(cleanedtext);
     puts("the sanitized keytext is");
-    printf("%s \n", keytext);
+
+    lprintf(keytext);
 // */
     return 0;
 }
