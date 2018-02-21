@@ -7,9 +7,7 @@
 
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include "stringhandle.h"
 
 
@@ -28,7 +26,7 @@ int main(int argc, char** argv) {
         return 1;
     }
     // opens and catches for bad files
-    puts("the plaintext input is");
+   // puts("the plaintext input is");
  //   while (fgets(plaintext, MAXSIZE, fp) != NULL) {
  //   printf("%s", plaintext);
 
@@ -42,7 +40,7 @@ int main(int argc, char** argv) {
         plaintext[i]=x;
         i++;
     }
-    printf("%s", plaintext);
+   // printf("%s", plaintext);
     // prints out file to io stream
     fclose(fp);
 
@@ -58,7 +56,7 @@ int main(int argc, char** argv) {
             return 1;
         }
     // opens and catches for bad files
-        puts("the key input is");
+      //  puts("the key input is");
        // while (fgets(keytext, MAXSIZE, key) != NULL)
          //   printf("%s", keytext);
 
@@ -66,7 +64,7 @@ int main(int argc, char** argv) {
 
     while  ( ( x = fgetc( key) ) != EOF )
     {
-        printf( "%c", x );
+        //printf( "%c", x );
         keytext[i]=x;
         i++;
     }

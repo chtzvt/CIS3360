@@ -5,6 +5,8 @@
 #ifndef CIS3360_STRINGHANDLE_H
 #define CIS3360_STRINGHANDLE_H
 #include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 #endif //CIS3360_STRINGHANDLE_H
 #define MAXSIZE 1000
 
