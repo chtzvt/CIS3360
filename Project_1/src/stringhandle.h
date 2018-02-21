@@ -68,3 +68,20 @@ char * cleaner( char dirty[MAXSIZE]){
     return strdup(cleaned);
 
 }
+// takes a long string and prints them out in blocks of 80
+void lprintf(char large[]) {
+    int j = 0;
+    int i;
+    while (large[j] != 0) {
+        i = 0;
+
+
+        while(i< 80 && large[j]!=0){
+printf("%c",large[j]);
+            i++;
+            j++;
+
+    }
+        printf("\n");
+}
+}
