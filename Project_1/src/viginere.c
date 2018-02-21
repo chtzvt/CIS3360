@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
 
     char plaintext[MAXSIZE];
     //char* plainfile = "../plainText1.txt"; //staticly defines file name for plain text
-    char *plainfile = argv[1];
+    char *plainfile = argv[2];
     // take command line arguments for name of plain text file
     fp = fopen(plainfile, "r");
     if (fp == NULL) {
@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
         FILE *key;
         char keytext[MAXSIZE];
       //  char* keyfile = "../viginere key1.txt"; //staticly defines file name for key text
-    char* keyfile = argv[2];
+    char* keyfile = argv[1];
     // takes name of keyfile argument and stores as string
         key = fopen(keyfile, "r");
         if (key == NULL){
@@ -91,12 +91,14 @@ int main(int argc, char** argv) {
 
 
 
-    puts("the sanitized plaintext is");
 
-    lprintf(cleanedtext);
     puts("the sanitized keytext is");
 
     lprintf(cleanedkey);
+
+    puts("the sanitized plaintext is");
+
+    lprintf(cleanedtext);
 // */
     return 0;
 }
