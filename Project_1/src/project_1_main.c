@@ -75,32 +75,32 @@ int main(int argc, char** argv) {
 
  // /*
 // starting to sanitize data now working
-    removespecial(plaintext);
-    removespecial(keytext);
+   // removespecial(plaintext);
+   // removespecial(keytext);
 
-    char  nospecialtext[MAXSIZE];
-    char  nospecialkey[MAXSIZE];
+     char  cleanedtext[MAXSIZE];
+    char  cleanedkey[MAXSIZE];
     // allocates string for no special charecter version of string
     char * returned;
     //allocates string for the returned value
-     returned = removeszeros(plaintext)  ;
-    strcpy(nospecialtext,returned);
+     returned = cleaner(plaintext) ;
+    strcpy(cleanedtext,returned);
     // copyies the returned value to a local varrible
     free(returned);
 // frees the returned value so we can use it again
-    returned = removeszeros(keytext);
-    strcpy(nospecialkey,returned);
+    returned = cleaner(keytext);
+    strcpy(cleanedkey,returned);
+    free(returned);
 
 
+  //  stringtolower(nospecialtext);
 
-    stringtolower(nospecialtext);
-
-    stringtolower(nospecialkey);
+    // stringtolower(nospecialkey);
 
     puts("the sanitized plaintext is");
-    printf("%s \n", nospecialtext);
+    printf("%s \n", cleanedtext);
     puts("the sanitized keytext is");
-    printf("%s \n", nospecialkey);
+    printf("%s \n", keytext);
 // */
     return 0;
 }

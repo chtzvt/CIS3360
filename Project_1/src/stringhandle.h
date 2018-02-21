@@ -51,3 +51,20 @@ char * removeszeros(char zeroed[]) {
 // returns the fixed string but allocates the memory so it does not get freed when function ends note this does not work in windows
     return strdup(fixed);
 }
+
+
+char * cleaner( char dirty[MAXSIZE]){
+    removespecial(dirty);
+
+    char  cleaned[MAXSIZE];
+    // allocates string for no special charecter version of string
+    char * returned;
+    //allocates string for the returned value
+    returned = removeszeros(dirty)  ;
+    strcpy(cleaned,returned);
+    // copyies the returned value to a local varrible
+    free(returned);
+
+    return strdup(cleaned);
+
+}
