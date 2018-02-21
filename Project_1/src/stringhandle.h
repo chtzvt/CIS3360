@@ -64,7 +64,7 @@ char * cleaner( char dirty[MAXSIZE]){
     strcpy(cleaned,returned);
     // copyies the returned value to a local varrible
     free(returned);
-
+    stringtolower(cleaned);
     return strdup(cleaned);
 
 }
