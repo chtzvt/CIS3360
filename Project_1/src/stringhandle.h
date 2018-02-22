@@ -36,7 +36,7 @@ void stringtolower(char upper[]){
 
 }
 // goes through the input string and prints it to the output string however it ignores any zeros when copying
-char * removeszeros(char zeroed[]) {
+char * removeszeros(const char zeroed[]) {
     char fixed[MAXSIZE];
     int i = 0;
     int j= 0;
@@ -98,8 +98,6 @@ void appendchars(char string[] , int amount , int i, char toappend){
     string[amount]=toappend;
         amount--;
     }
-
-
 
 
 }
