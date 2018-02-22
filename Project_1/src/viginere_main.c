@@ -88,9 +88,14 @@ int main(int argc, char** argv) {
     returned = cleaner(keytext);
     strcpy(cleanedkey,returned);
     free(returned);
-
-
-
+    int cleantextsize = strlen(cleanedtext);
+    int cleankeysize = strlen(cleanedkey);
+    int appendsize = cleankeysize -cleantextsize;
+    if(appendsize <0){
+        puts("your key is smaller then your text );");
+        return 2;
+    }
+    appendchars(cleanedtext,appendsize,cleantextsize,'x');
 
     puts("the sanitized keytext is");
 
