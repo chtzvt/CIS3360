@@ -78,13 +78,12 @@ void lprintf(char large[]) {
     while (large[j] != 0) {
         i = 0;
 
-
         while(i< 80 && large[j]!=0){
-printf("%c",large[j]);
+            printf("%c",large[j]);
             i++;
             j++;
 
-    }
+        }
         printf("\n");
-}
+    }
 }
