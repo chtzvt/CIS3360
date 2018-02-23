@@ -1,0 +1,7 @@
+image: gcc
+
+build:
+  stage: build
+  script: ./build.sh
+  artifacts:
+    
