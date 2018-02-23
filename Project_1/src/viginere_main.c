@@ -17,6 +17,8 @@ int main(int argc, char** argv) {
     // inputs files into strings
     char * temp;
     temp = givemestring(argv[2]);
+	if (temp == '1')
+		return 4 ;
     char plaintext[MAXSIZE];
     strcpy(plaintext,temp);
     // copyies the returned value to a local varrible
@@ -24,6 +26,8 @@ int main(int argc, char** argv) {
 
     char keytext[MAXSIZE];
     temp = givemestring(argv[1]);
+	if (temp == '1')
+		return 4 ;
     strcpy(keytext,temp);
     // copyies the returned value to a local varrible
     free(temp);
