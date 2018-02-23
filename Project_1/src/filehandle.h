@@ -20,7 +20,7 @@ char * givemestring(char * file){
     fp = fopen(file, "r");
     if (fp == NULL) {
         printf("Could not open file %s", file);
-        return "/n";
+        return "1";
     }
     // opens and catches for bad files
     // puts("the plaintext input is");
