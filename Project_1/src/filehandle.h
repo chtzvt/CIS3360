@@ -8,7 +8,8 @@
 #endif //CIS3360_FILEHANDLE_H
 
 #include "def.h"
-#include "stdio.h"
+#include <stdio.h>
+#include <string.h>
 
 char * givemestring(char * file){
 
@@ -20,7 +21,7 @@ char * givemestring(char * file){
     fp = fopen(file, "r");
     if (fp == NULL) {
         printf("Could not open file %s", file);
-        return '1';
+        return strdup("");
     }
     // opens and catches for bad files
     // puts("the plaintext input is");
@@ -40,5 +41,5 @@ char * givemestring(char * file){
     text[i]=0;
     // adds null charecter
 //printf("%s",text);
-return strdup(text);
+    return strdup(text);
 }
