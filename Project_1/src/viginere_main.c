@@ -11,6 +11,7 @@
 #include "stringhandle.h"
 #include "def.h"
 #include "filehandle.h"
+#include "cipher.h"
 
 //defines max character array size
 int main(int argc, char** argv) {
