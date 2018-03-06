@@ -4,8 +4,6 @@
 	By Charlton Trezevant and Alexander Cote
 */
 
-
-
 #include <stdio.h>
 #include <string.h>
 #include "stringhandle.h"
@@ -37,7 +35,7 @@ int main(int argc, char** argv) {
 // starting to sanitize data now working
 
 
-     char  cleanedtext[MAXSIZE];
+    char  cleanedtext[MAXSIZE];
     char  cleanedkey[MAXSIZE];
     // allocates string for no special charecter version of string
     char * returned;
@@ -66,6 +64,19 @@ int main(int argc, char** argv) {
     puts("the sanitized plaintext is");
 
     lprintf(cleanedtext);
+    
+    puts("the ciphertext is");
+    char ciphertext[MAXSIZE];
+    
+    char cipher2[12];
+    char plain2[13] = "attackatdawn";
+    char key2[13] =   "lemonlemonle";
+  
+    encipher(cleanedtext, ciphertext, cleanedkey, strlen(cleanedtext));
+    encipher(&plain2, cipher2, &key2, strlen(&plain2));
+    
+    lprintf(ciphertext);
+    lprintf(cipher2);
 // */
     return 0;
 }
