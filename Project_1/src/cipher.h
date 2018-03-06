@@ -6,11 +6,11 @@
 //    key_index = (int)(keychar) - 96);
 //    msg_index = (int)(msgchar) - 96);
 char encipher_char(char msgchar, char keychar){
-  return (char)(97 + ( ((int)(msgchar) - 95) + ((int)(keychar) - 95)) % 26);
+  return (char)(((int)(msgchar) + (int)(keychar) - 194)%26 + 97);
 }
 
 void encipher(char *plaintext, char *ciphertext, char *key, int msglen) {
-  ciphertext[msglen-1] = '\0';
-  for(int i = 0; i < msglen - 1; i++)
+  ciphertext[msglen] = '\0';
+  for(int i = 0; i < msglen; i++)
     ciphertext[i] = encipher_char(plaintext[i], key[i]);
 }
