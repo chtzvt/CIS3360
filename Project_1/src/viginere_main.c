@@ -37,20 +37,13 @@ int main(int argc, char** argv) {
 
     char  cleanedtext[MAXSIZE];
     char  cleanedkey[MAXSIZE];
-    // allocates string for no special charecter version of string
-    char * returned;
-    //allocates string for the returned value
-     returned = cleaner(plaintext) ;
-    strcpy(cleanedtext,returned);
-    // copyies the returned value to a local varrible
-    free(returned);
-// frees the returned value so we can use it again
-    returned = cleaner(keytext);
-    strcpy(cleanedkey,returned);
-    free(returned);
+    removespecial(plaintext, cleanedtext, MAXSIZE);
+    removespecial(keytext, cleanedkey, MAXSIZE);
+
     int cleantextsize = strlen(cleanedtext);
     int cleankeysize = strlen(cleanedkey);
     int appendsize = cleankeysize -cleantextsize;
+    
     if(appendsize <0){
         puts("your key is smaller then your text );");
         return 2;
@@ -68,7 +61,7 @@ int main(int argc, char** argv) {
     puts("the ciphertext is");
     char ciphertext[MAXSIZE];
   
-    encipher(&cleanedtext, ciphertext, &cleanedkey, strlen(&cleanedtext));
+    encipher(cleanedtext, ciphertext, cleanedkey, strlen(cleanedtext));
     
     lprintf(ciphertext);
 // */

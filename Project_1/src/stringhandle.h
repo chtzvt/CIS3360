@@ -12,19 +12,14 @@
 #include "def.h"
 
 // replaces all special charecter  with '0'
-void removespecial(char special[]) {
-    int i = 0;
-    while (i != MAXSIZE) {
-        if(  special[i]==0)
-            break; // i know its bad practice but it pervents the null termninating string from being deleted
-        if ((isalpha(special[i]) == 0) && special[i]!=0) {
-            special[i] = '0';
-        }
-
-
-        i++;
-    }
+void removespecial(char *dirty, char *cleaned, int len) {
+  for(int i = 0; i < len; i++){
+    if(isalpha(dirty[i]) && dirty[i] != ' ')
+      cleaned[i] = tolower(dirty[i]);
+  }
+  printf("%s", cleaned);
 }
+
 // goes through and changes all upper case letters to the lower case version
 void stringtolower(char upper[]){
     int i=0 ;
@@ -56,21 +51,6 @@ char * removeszeros(const char zeroed[]) {
 }
 
 
-char * cleaner( char dirty[MAXSIZE]){
-    removespecial(dirty);
-
-    char  cleaned[MAXSIZE];
-    // allocates string for no special charecter version of string
-    char * returned;
-    //allocates string for the returned value
-    returned = removeszeros(dirty)  ;
-    strcpy(cleaned,returned);
-    // copyies the returned value to a local varrible
-    free(returned);
-    stringtolower(cleaned);
-    return strdup(cleaned);
-
-}
 // takes a long string and prints them out in blocks of 80
 void lprintf(char large[]) {
     int j = 0;
