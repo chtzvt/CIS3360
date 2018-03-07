@@ -15,7 +15,7 @@
 int main(int argc, char** argv) {
     // inputs files into strings
     char * temp;
-    temp = givemestring(argv[2]);
+    temp = givemecleanstring(argv[2]);
 	if (* temp == '1')
 		return 4 ;
     char plaintext[MAXSIZE];
@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
     free(temp);
 
     char keytext[MAXSIZE];
-    temp = givemestring(argv[1]);
+    temp = givemecleanstring(argv[1]);
 	if (* temp == '1')
 		return 4 ;
     strcpy(keytext,temp);
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 
  // /*
 // starting to sanitize data now working
-
+/*
 
     char  cleanedtext[MAXSIZE];
     char  cleanedkey[MAXSIZE];
@@ -47,28 +47,30 @@ int main(int argc, char** argv) {
 // frees the returned value so we can use it again
     returned = cleaner(keytext);
     strcpy(cleanedkey,returned);
-    free(returned);
-    int cleantextsize = strlen(cleanedtext);
-    int cleankeysize = strlen(cleanedkey);
+   free(returned); */
+	removespecial(keytext);
+	removespecial(plaintext);
+    int cleantextsize = strlen(plaintext);
+    int cleankeysize = strlen(keytext);
     int appendsize = cleankeysize -cleantextsize;
     if(appendsize <0){
         puts("your key is smaller then your text );");
         return 2;
     }
-    appendchars(cleanedtext,appendsize,cleantextsize,'x');
+    appendchars(plaintext,appendsize,cleantextsize,'x');
 
     puts("the sanitized keytext is");
 
-    lprintf(cleanedkey);
+    lprintf(keytext);
 
     puts("the sanitized plaintext is");
 
-    lprintf(cleanedtext);
+    lprintf(plaintext);
     
     puts("the ciphertext is");
     char ciphertext[MAXSIZE];
   
-    encipher(&cleanedtext, ciphertext, &cleanedkey, strlen(&cleanedtext));
+    encipher(&plaintext, ciphertext, &keytext, strlen(&plaintext));
     
     lprintf(ciphertext);
 // */
