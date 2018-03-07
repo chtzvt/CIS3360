@@ -20,7 +20,7 @@ var plaintext = 'wikipediaisawebbasedfreecontentencyclopediaprojectsupportedbyth
 var keytext = 'thisbigbadisaconnivingmalepoliticianhehastakenovertheuniversewithanewinventionhecommandsasmallteamofeliteunderlingsandcanonlybedefeatedthroughwitandstrategyhecommandsasmallteamofeliteunderlingsandcanonlybedefeatedthroughwitandstrategy';
 enc = encipher(plaintext,keytext,plaintext.length);
 
-for(item of enc)
+for(var item of enc)
    str += "" + item;
 
 // Output: ppsaqmjjalaswgponazlsxqenschpvmmpkypsswevbazvbxzgklbtjbzoiutcppxdixmimqdeshcbqhxkczmnqesswpoylfsdqztjzxxrflhhzeiorwcbqveahnybjwuesoewxkxmztnntkampbsmerrpihqpxgljjxkapxpjxiiqbxjlcbifqbrkaboifkdpxkazxklkivybabcbxqbaqeolrdetfqxkapqoxqbdv
