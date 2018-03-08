@@ -93,7 +93,6 @@ void appendchars(char string[] , int amount , int i, char toappend){
     amount=i+1+amount;
     string[amount]=0;
     amount--;
-    amount--;
     while(amount >=i){
     string[amount]=toappend;
         amount--;
