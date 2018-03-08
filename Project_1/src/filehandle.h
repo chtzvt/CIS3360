@@ -10,6 +10,8 @@
 #include "def.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdio.h>
+#include <ctype.h>
 
 char * givemestring(char * file){
 
@@ -31,12 +33,25 @@ char * givemestring(char * file){
     // break; //fixes weird data corruption issue
 // }
     int i=0;
+	int j=0;
     char x;
-    while  ( ( x = fgetc( fp ) ) != EOF )
+	int p=0;
+	 x = fgetc( fp );
+    while  (  x!= EOF)
     {
-        //printf( "%c", x );
+	j=isalpha(x);
+
+	    if(j!=0){
+		x=tolower(x);
+		    //printf( "%c", x );
         text[i]=x;
         i++;
+    }
+	   // p++;
+	    x = fgetc( fp );
+	    if( i==999){
+		    break;
+	    }
     }
     text[i]=0;
     // adds null charecter
