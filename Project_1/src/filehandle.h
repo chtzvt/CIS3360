@@ -90,6 +90,6 @@ char * givemecleanstring(char * file){
 	text[i]=0;
 	// adds null charecter
 //printf("%s",text);
-	fclose(file);
+	// fclose(file);
 	return strdup(text);
 }

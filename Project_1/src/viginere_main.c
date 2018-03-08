@@ -15,7 +15,7 @@
 int main(int argc, char** argv) {
     // inputs files into strings
     char * temp;
-    temp = givemecleanstring(argv[2]);
+    temp = givemestring(argv[2]);
 	if (* temp == '1')
 		return 4 ;
     char plaintext[MAXSIZE];
@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
     free(temp);
 
     char keytext[MAXSIZE];
-    temp = givemecleanstring(argv[1]);
+    temp = givemestring(argv[1]);
 	if (* temp == '1')
 		return 4 ;
     strcpy(keytext,temp);
@@ -63,16 +63,16 @@ int main(int argc, char** argv) {
     returned = cleaner(keytext);
     strcpy(cleanedkey,returned);
    free(returned); */
-	removespecial(keytext);
-	removespecial(plaintext);
+//	removespecial(keytext);
+//	removespecial(plaintext);
     int cleantextsize = strlen(plaintext);
     int cleankeysize = strlen(keytext);
     int appendsize = cleankeysize -cleantextsize;
-    if(appendsize <0){
-        puts("your key is smaller then your text );");
-        return 2;
-    }
->>>>>>> broken
+   // if(appendsize <0){
+   //     puts("your key is smaller then your text );");
+   //     return 2;
+   // }
+
     appendchars(plaintext,appendsize,cleantextsize,'x');
 
     puts("the sanitized keytext is");
