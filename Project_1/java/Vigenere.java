@@ -96,7 +96,7 @@ public class Vigenere {
         while(j < input.length()){
           String fmt = "%c";
           
-          if(i == 80){
+          if(i == (OUTPUT_LINE_LENGTH - 1)){
             fmt += "%n";
             i = 0;
           } else {
@@ -132,21 +132,18 @@ public class Vigenere {
     
     String key = DataHandler.loadKey(args[1]);
     
-    System.out.printf("Key: %n");
+    System.out.printf("%n%nVigenere Key:%n%n");
     DataHandler.OutputFormatter.printBlockOutput(key);
     
     String plaintext  = DataHandler.loadPlaintext(args[0]);
     
-    System.out.printf("%n%nPlaintext: %n");
+    System.out.printf("%n%n%nPlaintext:%n%n");
     DataHandler.OutputFormatter.printBlockOutput(plaintext);
     
     String ciphertext = VigenereCipher.encipher(plaintext, key);
     
-    System.out.printf("%n%nCiphertext: %n");
+    System.out.printf("%n%n%nCiphertext:%n%n");
     DataHandler.OutputFormatter.printBlockOutput(ciphertext);
-    
-    System.out.printf("%n");
-    
   }
   
 }
