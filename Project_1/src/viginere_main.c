@@ -86,7 +86,7 @@ int main(int argc, char** argv) {
     puts("the ciphertext is");
     char ciphertext[MAXSIZE];
   
-    encipher(&plaintext, ciphertext, &keytext, strlen(&plaintext));
+    encipher(&plaintext, strlen(&plaintext), &keytext, strlen(&keytext), ciphertext);
     
     lprintf(ciphertext);
 // */
