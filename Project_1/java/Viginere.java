@@ -1,12 +1,12 @@
 import java.util.*;
 import java.io.*;
 
-public class Viginere {
+public class Vigenere {
   private String plaintext, ciphertext, key;
   
-  private static class ViginereCipher {
+  private static class VigenereCipher {
     
-    public ViginereCipher(){
+    public VigenereCipher(){
       super();
     }
     
@@ -140,7 +140,7 @@ public class Viginere {
     System.out.printf("%n%nPlaintext: %n");
     DataHandler.OutputFormatter.printBlockOutput(plaintext);
     
-    String ciphertext = ViginereCipher.encipher(plaintext, key);
+    String ciphertext = VigenereCipher.encipher(plaintext, key);
     
     System.out.printf("%n%nCiphertext: %n");
     DataHandler.OutputFormatter.printBlockOutput(ciphertext);
