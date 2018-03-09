@@ -72,9 +72,12 @@ public class Viginere {
       }
       
       public static String addPadding(String input){
-        String fmt = ((MAX_STRING_LENGTH - input.length()) > 0) ? "%-"+ (MAX_STRING_LENGTH - input.length()) +"s" : "%s";
-      
-        return String.format(fmt, input).replace(' ', 'x');
+        int padAmount = ((MAX_STRING_LENGTH - input.length()) > 0) ? (MAX_STRING_LENGTH - input.length()) : 0;
+        
+        for(int i = 0; i < padAmount; i++)
+          input += 'x';
+        
+        return input;
       }
       
     }
@@ -110,13 +113,13 @@ public class Viginere {
     
     public static String loadKey(String filename){
       String key = InputFormatter.clean(FileHandler.readFile(filename));
-      return InputFormatter.addPadding(key);
+      MAX_STRING_LENGTH = (key.length() >= 512) ? 512 : key.length();
+      return key;
     }
     
     public static String loadPlaintext(String filename){
       String plaintext = InputFormatter.clean(FileHandler.readFile(filename));
-      MAX_STRING_LENGTH = (plaintext.length() >= 512) ? 512 : plaintext.length();
-      return plaintext;
+      return InputFormatter.addPadding(plaintext);
     }
     
   }
@@ -125,15 +128,15 @@ public class Viginere {
     
     DataHandler datahandler = new DataHandler();
     
-    String plaintext  = DataHandler.loadPlaintext(args[0]);
-    
-    System.out.printf("%n%nPlaintext: %n");
-    DataHandler.OutputFormatter.printBlockOutput(plaintext);
-    
     String key = DataHandler.loadKey(args[1]);
     
     System.out.printf("%n%nKey: %n");
     DataHandler.OutputFormatter.printBlockOutput(key);
+    
+    String plaintext  = DataHandler.loadPlaintext(args[0]);
+    
+    System.out.printf("%n%nPlaintext: %n");
+    DataHandler.OutputFormatter.printBlockOutput(plaintext);
     
     String ciphertext = ViginereCipher.encipher(plaintext, key);
     
