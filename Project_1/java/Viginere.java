@@ -18,7 +18,8 @@ public class Viginere {
       String ciphertext = "";
       
       for(int i = 0; i < plaintext.length(); i++)
-        ciphertext += encipherCharacter(plaintext.charAt(i), key.charAt(i));
+        
+        ciphertext += encipherCharacter(plaintext.charAt(i), key.charAt((i % key.length())));
         
       return ciphertext;
     }
@@ -98,10 +99,11 @@ public class Viginere {
           if(i == 80){
             fmt += "%n";
             i = 0;
+          } else {
+            i++;
           }
             
           System.out.printf(fmt, input.charAt(j));
-          i++;
           j++;
         }
       }
@@ -130,7 +132,7 @@ public class Viginere {
     
     String key = DataHandler.loadKey(args[1]);
     
-    System.out.printf("%n%nKey: %n");
+    System.out.printf("Key: %n");
     DataHandler.OutputFormatter.printBlockOutput(key);
     
     String plaintext  = DataHandler.loadPlaintext(args[0]);
@@ -142,6 +144,8 @@ public class Viginere {
     
     System.out.printf("%n%nCiphertext: %n");
     DataHandler.OutputFormatter.printBlockOutput(ciphertext);
+    
+    System.out.printf("%n");
     
   }
   
