@@ -4,17 +4,17 @@ import java.io.*;
 public class Viginere {
   private String plaintext, ciphertext, key;
   
-  private static class Cipher {
+  private static class ViginereCipher {
     
-    public Cipher(){
+    public ViginereCipher(){
       super();
     }
     
-    public char encipherCharacter(char message_char, char key_char){
+    public static char encipherCharacter(char message_char, char key_char){
       return (char)(((int)(message_char) + (int)(key_char) - 194)%26 + 97);
     }
   
-    public String encipher(String plaintext, String key){
+    public static String encipher(String plaintext, String key){
       String ciphertext = "";
       
       for(int i = 0; i < plaintext.length(); i++)
@@ -25,6 +25,9 @@ public class Viginere {
   }
   
   private static class DataHandler {
+    private static int MAX_STRING_LENGTH = 512;
+    private static int OUTPUT_LINE_LENGTH = 80;
+    
     // manages retrieval of source texts from the filesystem
     public static class FileHandler {
       public FileHandler(){
@@ -51,7 +54,7 @@ public class Viginere {
           System.out.printf("*** An error was encountered while loading the file: ***%n");
           e.printStackTrace();
         }
-        
+
         return file_contents;
         
       }
@@ -64,14 +67,16 @@ public class Viginere {
         super();
       }
       
-      public static String format(String input){
+      public static String clean(String input){
         return input.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
       }
       
       public static String addPadding(String input){
-        String fmt = "%-" + (512 - input.length()) + "s";
-        return String.format("%s", input).replace(' ', 'x');
+        String fmt = ((MAX_STRING_LENGTH - input.length()) > 0) ? "%-"+ (MAX_STRING_LENGTH - input.length()) +"s" : "%s";
+      
+        return String.format(fmt, input).replace(' ', 'x');
       }
+      
     }
     
     // handles program output display (formatting, etcetera)
@@ -80,26 +85,60 @@ public class Viginere {
         super();
       }
       
+      public static void printBlockOutput(String input){
+        int i = 0;
+        int j = 0;
+        
+        while(j < input.length()){
+          String fmt = "%c";
+          
+          if(i == 80){
+            fmt += "%n";
+            i = 0;
+          }
+            
+          System.out.printf(fmt, input.charAt(j));
+          i++;
+          j++;
+        }
+      }
     }
     
     public DataHandler(){
       super();
     }
     
-    public static String getKey(String filename){
-      String key = FileHandler.readFile(filename);
-      return InputFormatter.format(key);
+    public static String loadKey(String filename){
+      String key = InputFormatter.clean(FileHandler.readFile(filename));
+      return InputFormatter.addPadding(key);
+    }
+    
+    public static String loadPlaintext(String filename){
+      String plaintext = InputFormatter.clean(FileHandler.readFile(filename));
+      MAX_STRING_LENGTH = (plaintext.length() >= 512) ? 512 : plaintext.length();
+      return plaintext;
     }
     
   }
   
-
   public static void main(String[] args){
     
     DataHandler datahandler = new DataHandler();
     
-    String plaintext  = DataHandler.getPlaintext(args[0]);
-    String key = DataHandler.getKey(args[0]);
+    String plaintext  = DataHandler.loadPlaintext(args[0]);
+    
+    System.out.printf("%n%nPlaintext: %n");
+    DataHandler.OutputFormatter.printBlockOutput(plaintext);
+    
+    String key = DataHandler.loadKey(args[1]);
+    
+    System.out.printf("%n%nKey: %n");
+    DataHandler.OutputFormatter.printBlockOutput(key);
+    
+    String ciphertext = ViginereCipher.encipher(plaintext, key);
+    
+    System.out.printf("%n%nCiphertext: %n");
+    DataHandler.OutputFormatter.printBlockOutput(ciphertext);
     
   }
   
