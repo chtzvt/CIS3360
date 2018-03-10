@@ -41,6 +41,7 @@ public class vigenere {
   
   // Generic superclass for static data manipulation helper classes
   private static class DataHandler {
+    private static int MAX_BLOCK_SIZE = 512;
     
     // manages retrieval of source texts from the filesystem
     public static class FileHandler {
@@ -76,7 +77,7 @@ public class vigenere {
       // Wraps several helper methods - retrieves cleaned source text from a file
       public static String loadCleanFile(String filename){
         String contents = DataHandler.InputFormatter.clean(DataHandler.FileHandler.readFile(filename));
-        return contents;
+        return (contents.length() >= MAX_BLOCK_SIZE) ? contents.substring(0, MAX_BLOCK_SIZE) : contents;
       }
       
     }
@@ -88,11 +89,21 @@ public class vigenere {
       }
       
       public static String clean(String input){
-        return input.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
+        return input.replaceAll("[^A-Za-z]", "").toLowerCase();
       }
       
       public static String addPadding(String plaintext, String key){
-        int padAmount = ((2 * key.length()) - plaintext.length());
+        // Compute the total number of times the key fits into the plaintext, rounding up
+        int key_padding = (plaintext.length() / key.length()) + ((plaintext.length() % key.length() == 0) ? 0 : 1);
+        // Padding amount = amount to pad plaintext to fit the key into it evenly
+        int padAmount = (key_padding * key.length()) - plaintext.length();
+        
+        if(plaintext.length() >= MAX_BLOCK_SIZE)
+          padAmount = 0;
+        
+        // Enforce 512 character block size for padded plaintext
+        if(plaintext.length() + padAmount > MAX_BLOCK_SIZE)
+          padAmount = MAX_BLOCK_SIZE - plaintext.length();
 
         for(int i = 0; i < padAmount; i++)
           plaintext += 'x';
@@ -138,12 +149,12 @@ public class vigenere {
   
   public static void main(String[] args){
         
-    String key = DataHandler.FileHandler.loadCleanFile(args[1]);
+    String key = DataHandler.FileHandler.loadCleanFile(args[0]);
     
     System.out.printf("%n%nVigenere Key:%n%n");
     DataHandler.OutputFormatter.printBlockOutput(key);
     
-    String plaintext = DataHandler.FileHandler.loadCleanFile(args[0]);
+    String plaintext = DataHandler.FileHandler.loadCleanFile(args[1]);
     plaintext = DataHandler.InputFormatter.addPadding(plaintext, key);
     
     System.out.printf("%n%n%nPlaintext:%n%n");
