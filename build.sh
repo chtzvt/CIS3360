@@ -67,6 +67,7 @@ fi
 # CHANGED_DIRS will collect the list of new directories that contain new changes (in the past $COMMIT_RANGE_LBOUND commits) to .c source files
 # This will ensure that Travis attempts to build only the latest changes, which is what we want
 CHANGED_DIRS=`git diff --name-only HEAD~$COMMIT_RANGE_LBOUND..HEAD '*.c' | cut -d '/' -f1 | sed -e 's/^/.\//'`
+CHANGED_DIRS=CHANGED_DIRS`git diff --name-only HEAD~$COMMIT_RANGE_LBOUND..HEAD '*.java' | cut -d '/' -f1 | sed -e 's/^/.\//'`
 
 # We'll keep track of the number of build failures here
 FAILED_BUILDS=""
