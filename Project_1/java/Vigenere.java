@@ -72,13 +72,13 @@ public class Vigenere {
         return input.replaceAll("[^A-Za-z0-9]", "").toLowerCase();
       }
       
-      public static String addPadding(String input){
-        int padAmount = ((MAX_STRING_LENGTH - input.length()) > 0) ? (MAX_STRING_LENGTH - input.length()) : 0;
-        
+      public static String addPadding(String plaintext, String key){
+        int padAmount = ((2 * key.length()) - plaintext.length());
+
         for(int i = 0; i < padAmount; i++)
-          input += 'x';
+          plaintext += 'x';
         
-        return input;
+        return plaintext;
       }
       
     }
@@ -121,7 +121,7 @@ public class Vigenere {
     
     public static String loadPlaintext(String filename){
       String plaintext = InputFormatter.clean(FileHandler.readFile(filename));
-      return InputFormatter.addPadding(plaintext);
+      return plaintext;
     }
     
   }
@@ -135,7 +135,8 @@ public class Vigenere {
     System.out.printf("%n%nVigenere Key:%n%n");
     DataHandler.OutputFormatter.printBlockOutput(key);
     
-    String plaintext  = DataHandler.loadPlaintext(args[0]);
+    String plaintext = DataHandler.loadPlaintext(args[0]);
+    plaintext = DataHandler.InputFormatter.addPadding(plaintext, key);
     
     System.out.printf("%n%n%nPlaintext:%n%n");
     DataHandler.OutputFormatter.printBlockOutput(plaintext);
@@ -144,6 +145,8 @@ public class Vigenere {
     
     System.out.printf("%n%n%nCiphertext:%n%n");
     DataHandler.OutputFormatter.printBlockOutput(ciphertext);
+    
+    System.out.printf("%n");
   }
   
 }
