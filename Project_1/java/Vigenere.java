@@ -10,7 +10,7 @@
   operates with a block size of 512 characters.
   
   Usage:
-      java Vignere path/to/plain.txt path/to/key.txt
+      java Vignere path/to/key.txt path/to/plain.txt
 
 */
 
