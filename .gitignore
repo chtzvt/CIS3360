@@ -8,3 +8,4 @@ cmake-build-debug/
 /CMakeLists.txt
 /Project_1/src/a.out
 *.class
+*.gch
