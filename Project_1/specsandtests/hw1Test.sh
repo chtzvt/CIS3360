@@ -1,5 +1,5 @@
 cd specsandtests/
-javac -d ./ ../java/vigenere.java
+javac -d ./ ../src/vigenere.java
 EXE="java vigenere"
 
 echo "Case #1"
