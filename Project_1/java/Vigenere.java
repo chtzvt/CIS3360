@@ -1,16 +1,31 @@
+/*
+	CIS3360 - Project 1
+	Michael McAlpin
+	By Charlton Trezevant and Alexander Cote
+*/
+
+/*
+
+  The Vignere class implements a classical Vignere cipher, which
+  operates with a block size of 512 characters.
+  
+  Usage:
+      java Vignere path/to/plain.txt path/to/key.txt
+
+*/
+
 import java.util.*;
 import java.io.*;
 
 public class Vigenere {
-  private String plaintext, ciphertext, key;
   
   private static class VigenereCipher {
     
-    public VigenereCipher(){
+    private VigenereCipher(){
       super();
     }
     
-    public static char encipherCharacter(char message_char, char key_char){
+    private static char encipherCharacter(char message_char, char key_char){
       return (char)(((int)(message_char) + (int)(key_char) - 194)%26 + 97);
     }
   
@@ -18,25 +33,23 @@ public class Vigenere {
       String ciphertext = "";
       
       for(int i = 0; i < plaintext.length(); i++)
-        
         ciphertext += encipherCharacter(plaintext.charAt(i), key.charAt((i % key.length())));
         
       return ciphertext;
     }
   }
   
+  // Generic superclass for static data manipulation helper classes
   private static class DataHandler {
-    private static int MAX_STRING_LENGTH = 512;
-    private static int OUTPUT_LINE_LENGTH = 80;
     
     // manages retrieval of source texts from the filesystem
     public static class FileHandler {
-      public FileHandler(){
+      private FileHandler(){
         super();
       }
       
-      public static String readFile(String filename){
-        
+      private static String readFile(String filename){
+          
         String file_line = "";
         String file_contents = "";
         
@@ -60,11 +73,17 @@ public class Vigenere {
         
       }
       
+      // Wraps several helper methods - retrieves cleaned source text from a file
+      public static String loadCleanFile(String filename){
+        String contents = DataHandler.InputFormatter.clean(DataHandler.FileHandler.readFile(filename));
+        return contents;
+      }
+      
     }
     
     // Cleans/pads/formats input files
     public static class InputFormatter {
-      public InputFormatter(){
+      private InputFormatter(){
         super();
       }
       
@@ -83,9 +102,11 @@ public class Vigenere {
       
     }
     
-    // handles program output display (formatting, etcetera)
+    // handles program output display (80 column block formatting, etc)
     public static class OutputFormatter {
-      public OutputFormatter(){
+      private static int OUTPUT_LINE_LENGTH = 80;
+      
+      private OutputFormatter(){
         super();
       }
       
@@ -109,33 +130,20 @@ public class Vigenere {
       }
     }
     
-    public DataHandler(){
+    private DataHandler(){
       super();
-    }
-    
-    public static String loadKey(String filename){
-      String key = InputFormatter.clean(FileHandler.readFile(filename));
-      MAX_STRING_LENGTH = (key.length() >= 512) ? 512 : key.length();
-      return key;
-    }
-    
-    public static String loadPlaintext(String filename){
-      String plaintext = InputFormatter.clean(FileHandler.readFile(filename));
-      return plaintext;
     }
     
   }
   
   public static void main(String[] args){
-    
-    DataHandler datahandler = new DataHandler();
-    
-    String key = DataHandler.loadKey(args[1]);
+        
+    String key = DataHandler.FileHandler.loadCleanFile(args[1]);
     
     System.out.printf("%n%nVigenere Key:%n%n");
     DataHandler.OutputFormatter.printBlockOutput(key);
     
-    String plaintext = DataHandler.loadPlaintext(args[0]);
+    String plaintext = DataHandler.FileHandler.loadCleanFile(args[0]);
     plaintext = DataHandler.InputFormatter.addPadding(plaintext, key);
     
     System.out.printf("%n%n%nPlaintext:%n%n");
