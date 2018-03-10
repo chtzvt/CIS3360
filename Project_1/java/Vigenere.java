@@ -17,7 +17,7 @@
 import java.util.*;
 import java.io.*;
 
-public class Vigenere {
+public class vigenere {
   
   private static class VigenereCipher {
     
