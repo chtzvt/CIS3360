@@ -1,27 +1,6 @@
-#
-# CIS3360 Homework 1 - Vigenere
-# Using the command line:
-#  ./a.out keyFile.txt plainFile.txt
-#     -or
-#  java vigenere keyFile.txt plainFile.txt
-#
-case $1 in
-vigenere.c)
-	gcc vigenere.c 
-	EXE="./a.out"
-	;;
-vigenere.cpp)
-	g++ vigenere.cpp
-	EXE="./a.out"
-	;;
-vigenere.java)
-	javac vigenere.java
-	EXE="java vigenere"
-	;;
-*)
-	echo "Invalid source file name: usage->./hw1Test.sh sourcefilename.extension"
-	exit 1
-esac
+cd specsandtests/
+javac -d ./ ../java/vigenere.java
+EXE="java vigenere"
 
 echo "Case #1"
 eval $EXE k1.txt p1a.txt >stu1Output.txt
