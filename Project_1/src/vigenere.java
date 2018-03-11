@@ -1,8 +1,8 @@
 /*
-	CIS3360 - Project 1
-	Michael McAlpin
-	By Charlton Trezevant and Alexander Cote
-*/
+ * CIS3360 - Spring 2018
+ * Security in Computing - Assignment 1
+ * Submitted by: Charlton Trezevant and Alexander Cote
+ */
 
 /*
 
