@@ -51,7 +51,7 @@ char chunk232[33];
 
 						}
 						o--;
-						while(o!=-1) {
+						while(o>1) {
 
 							chunk28[o] = '0';
 							o--;
@@ -73,7 +73,7 @@ char chunk232[33];
 
 				}
 					o--;
-				while(o!=-1) {
+				while(o>1) {
 
 					chunk18[o] = '0';
 					o--;

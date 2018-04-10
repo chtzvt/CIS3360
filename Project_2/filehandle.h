@@ -35,17 +35,18 @@ char * givemestring(char * file){
 	int j=0;
 	char x;
 	int p=0;
+
 	x = fgetc( fp );
 	while  (  x!= EOF)
 	{
-		j=isalpha(x);
+		//j=isalpha(x);
 
-		if(j!=0){
-			x=tolower(x);
+		//if(j!=0){
+		//x=tolower(x);
 			//printf( "%c", x );
 			text[i]=x;
 			i++;
-		}
+		//}
 		// p++;
 		x = fgetc( fp );
 		if( i==999){
