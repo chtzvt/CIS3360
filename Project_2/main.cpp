@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #define MAXSIZE 10000
 int binary(int i);
-int binadd(char *v1, char *v2);
+char* binadd(char *v1, char *v2);
 int main(int argc, char** argv){
 char string[MAXSIZE];
 int  intchunk;
@@ -37,6 +37,29 @@ char chunk232[33];
 
 					sprintf(chunk28,"%i\0", binary(intchunk));
 					j++;
+
+
+					int p=strlen(chunk28);
+					//printf("%i",p);
+					if(p<8){
+						chunk28[8]=0;
+						p--;
+						int o=7;
+						for(o=7;p!=0;p--) {
+							chunk28[o]=chunk28[p];
+							o--;
+
+						}
+						o--;
+						while(o!=-1) {
+
+							chunk28[o] = '0';
+							o--;
+							//puts("i ran");
+						}
+
+
+					}
 				}
 				int p=strlen(chunk18);
 				//printf("%i",p);
@@ -59,6 +82,11 @@ char chunk232[33];
 
 
 				}
+
+
+
+
+
 				printf("%s \n",chunk18);
 				binadd(chunk18,chunk28);
 			}
@@ -119,16 +147,44 @@ else
 
 }
 
-int binadd(char *v1, char *v2){
+char* binadd(char v1[], char v2[]){
 
 	int vl = strlen(v1);
-
-
-	for(int x =0; x<vl;x++){
-		//printf("%s\n+\n %s \n ",v1,v2);
-
-
-
+	char result[vl+1];
+	result[vl] =0;
+	int carry=0;
+	for(int x =vl-1; x>-1;x--){
+		if ((v1[x]=='0') && (v2[x]=='0') && (carry==0)){
+		result[x]='0';
+		}
+		else if ((v1[x]=='0') && (v2[x]=='0') && (carry==1)){
+			result[x]='1';
+		}
+		else if ((v1[x]=='1') && (v2[x]=='0') && (carry==0)){
+			result[x]='1';
+		}
+		else if ((v1[x]=='1') && (v2[x]=='1') && (carry==0)){
+			result[x]='0';
+			carry =1;
+		}
+		else if ((v1[x]=='1') && (v2[x]=='1') && (carry==1)){
+			result[x]='1';
+			carry =1;
+		}
+		else if ((v1[x]=='0') && (v2[x]=='1') && (carry==1)){
+			result[x]='0';
+			carry =1;
+		}
+		else if ((v1[x]=='1') && (v2[x]=='0') && (carry==1)){
+			result[x]='0';
+			carry =1;
+		}
+		else if ((v1[x]=='0') && (v2[x]=='1') && (carry==0)){
+			result[x]='1';
+			carry =0;
+		}
+		else printf("missed me with v1=%c v2=%c and carry =%i",v1[x],v2[x],carry);
 	}
-
+	printf("the result is %s \n",result);
+	return strdup(result);
 }
