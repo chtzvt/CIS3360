@@ -88,7 +88,9 @@ char chunk232[33];
 
 
 				printf("%s \n",chunk18);
-				binadd(chunk18,chunk28);
+				char* temp = binadd(chunk18,chunk28);
+				strcpy(temp,chunk28);
+
 			}
 			//bool x;
 			//x= true + true;
@@ -148,7 +150,7 @@ else
 }
 
 char* binadd(char v1[], char v2[]){
-
+	printf("the input is v1= %s v2 = %s \n",v1,v2);
 	int vl = strlen(v1);
 	char result[vl+1];
 	result[vl] =0;
