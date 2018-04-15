@@ -18,7 +18,9 @@ char chunk216[17];
 
 char chunk132[33];
 char chunk232[33];
-
+int b;
+int counter2 = 0;
+	char *pointer2;
 	switch(argv[2][0]) {
 
 		case '8':
@@ -39,58 +41,58 @@ char chunk232[33];
 					j++;
 
 				}
-					/* int p=strlen(chunk28);
-					//printf("%i",p);
-					if(p<8){
-						chunk28[8]=0;
-						p--;
-						int o=7;
-						for(o=7;p!=0;p--) {
-							chunk28[o]=chunk28[p];
-							o--;
-
-						}
-						o--;
-						while(o>1) {
-
-							chunk28[o] = '0';
-							o--;
-							//puts("i ran");
-						}
-
-
-					}
-				*/
-					/*
-					int p=strlen(chunk18);
-					//printf("%i",p);
-					if(p<8){
-					chunk18[8]=0;
+				/* int p=strlen(chunk28);
+				//printf("%i",p);
+				if(p<8){
+					chunk28[8]=0;
 					p--;
 					int o=7;
 					for(o=7;p!=0;p--) {
-					chunk18[o]=chunk18[p];
-					o--;
+						chunk28[o]=chunk28[p];
+						o--;
 
 					}
-						o--;
+					o--;
 					while(o>1) {
 
-						chunk18[o] = '0';
+						chunk28[o] = '0';
 						o--;
 						//puts("i ran");
 					}
 
 
-					} */
+				}
+			*/
+				/*
+				int p=strlen(chunk18);
+				//printf("%i",p);
+				if(p<8){
+				chunk18[8]=0;
+				p--;
+				int o=7;
+				for(o=7;p!=0;p--) {
+				chunk18[o]=chunk18[p];
+				o--;
+
+				}
+					o--;
+				while(o>1) {
+
+					chunk18[o] = '0';
+					o--;
+					//puts("i ran");
+				}
+
+
+				} */
 
 
 
 
 
-					printf("%s \n", chunk18);
-					char *temp = binadd(chunk18, chunk28,9);
-					strcpy(chunk28, temp);
+				//printf("%s \n", chunk18);
+				char *temp = binadd(chunk18, chunk28, 9);
+				strcpy(chunk28, temp);
 
 
 			}
@@ -99,6 +101,14 @@ char chunk232[33];
 			//x= true + true;
 			//printf("%i",x);
 
+			pointer2 = chunk28;
+
+			do {
+				b = *pointer2 == '1' ? 1 : 0;
+				counter2 = (counter2 << 1) | b;
+				pointer2++;
+			} while (*pointer2);
+			printf("%X\n", counter2);
 
 
 
@@ -153,7 +163,7 @@ else
 }
 
 char* binadd(char v1[], char v2[],int resultsize){
-	printf("the input is v1= %s v2 = %s \n",v1,v2);
+	//printf("the input is v1= %s v2 = %s \n",v1,v2);
 	int vl1 = strlen(v1);
 	int vl2 = strlen(v2);
 	char result[resultsize]={0};
@@ -163,7 +173,7 @@ char* binadd(char v1[], char v2[],int resultsize){
 	int x =vl1-1;
 	int c =vl2-1;
 	char value1 , value2;
-	while( x>-1 || c >-1) {
+	while( resultsize>=0) {
 		if (x < 0) {
 			value1 = '0';
 		} else {
@@ -201,8 +211,10 @@ char* binadd(char v1[], char v2[],int resultsize){
 		x--;
 		c--;
 		resultsize--;
-		if (!(x > -1 && c > -1))
-		{
+		if (x > -1){
+			if (c > -1){
+				goto jump;
+
 			if (resultsize >= 1) {
 				if (carry == 1) {
 					result[resultsize - 1] = '1';
@@ -214,8 +226,10 @@ char* binadd(char v1[], char v2[],int resultsize){
 
 				}
 			}
-		}
-	}
-	printf("the result is %s \n",result);
+
+		jump:;
+	}}}
+
+	//printf("the result is %s \n",result);
 	return strdup(result);
 }
