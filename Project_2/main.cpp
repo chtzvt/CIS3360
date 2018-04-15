@@ -440,7 +440,7 @@ else
 }
 
 char* binadd(char v1[], char v2[],int resultsize){
-	//printf("the input is v1= %s v2 = %s \n",v1,v2);
+	printf("the input is v1= %s v2 = %s \n",v1,v2);
 	int vl1 = strlen(v1);
 	int vl2 = strlen(v2);
 	char result[resultsize]={0};
@@ -507,6 +507,6 @@ char* binadd(char v1[], char v2[],int resultsize){
 		jump:;
 	}}}
 
-	//printf("the result is %s \n",result);
+	printf("the result is %s \n",result);
 	return strdup(result);
 }
