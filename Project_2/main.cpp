@@ -20,6 +20,7 @@ char chunk132[33];
 char chunk232[33];
 int b;
 int counter2 = 0;
+int characterCnt;
 	char *pointer2;
 	switch(argv[2][0]) {
 
@@ -108,7 +109,8 @@ int counter2 = 0;
 				counter2 = (counter2 << 1) | b;
 				pointer2++;
 			} while (*pointer2);
-			printf("%X\n", counter2);
+			characterCnt=strlen(string);
+			printf("%s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
 
 
 
