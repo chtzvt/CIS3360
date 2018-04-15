@@ -163,66 +163,58 @@ char* binadd(char v1[], char v2[],int resultsize){
 	int x =vl1-1;
 	int c =vl2-1;
 	char value1 , value2;
-	while( x>-1 && c >-1){
-		if(x==0){
+	while( x>-1 || c >-1) {
+		if (x < 0) {
 			value1 = '0';
+		} else {
+			value1 = v1[x];
 		}
-		else{
-			value1= v1[x];
-		}
-		if(c==0){
+		if (c < 0) {
 			value2 = '0';
-		}
-		else{
-			value2= v2[c];
+		} else {
+			value2 = v2[c];
 		}
 
-		if ((value1=='0') && (value2=='0') && (carry==0)){
-		result[resultsize-1]='0';
-		}
-		else if ((value1=='0') && (value2=='0') && (carry==1)){
-			result[resultsize-1]='1';
-		}
-		else if ((value1=='1') && (value2=='0') && (carry==0)){
-			result[resultsize-1]='1';
-		}
-		else if ((value1=='1') && (value2=='1') && (carry==0)){
-			result[resultsize-1]='0';
-			carry =1;
-		}
-		else if ((value1=='1') && (value2=='1') && (carry==1)){
-			result[resultsize-1]='1';
-			carry =1;
-		}
-		else if ((value1=='0') && (value2=='1') && (carry==1)){
-			result[resultsize-1]='0';
-			carry =1;
-		}
-		else if ((value1=='1') && (value2=='0') && (carry==1)){
-			result[resultsize-1]='0';
-			carry =1;
-		}
-		else if ((value1=='0') && (value2=='1') && (carry==0)){
-			result[resultsize-1]='1';
-			carry =0;
-		}
-	
-		else printf("missed me with v1=%c v2=%c and carry =%i",value1,value2,carry);
+		if ((value1 == '0') && (value2 == '0') && (carry == 0)) {
+			result[resultsize - 1] = '0';
+		} else if ((value1 == '0') && (value2 == '0') && (carry == 1)) {
+			result[resultsize - 1] = '1';
+		} else if ((value1 == '1') && (value2 == '0') && (carry == 0)) {
+			result[resultsize - 1] = '1';
+		} else if ((value1 == '1') && (value2 == '1') && (carry == 0)) {
+			result[resultsize - 1] = '0';
+			carry = 1;
+		} else if ((value1 == '1') && (value2 == '1') && (carry == 1)) {
+			result[resultsize - 1] = '1';
+			carry = 1;
+		} else if ((value1 == '0') && (value2 == '1') && (carry == 1)) {
+			result[resultsize - 1] = '0';
+			carry = 1;
+		} else if ((value1 == '1') && (value2 == '0') && (carry == 1)) {
+			result[resultsize - 1] = '0';
+			carry = 1;
+		} else if ((value1 == '0') && (value2 == '1') && (carry == 0)) {
+			result[resultsize - 1] = '1';
+			carry = 0;
+		} else printf("missed me with v1=%c v2=%c and carry =%i", value1, value2, carry);
 		x--;
 		c--;
 		resultsize--;
-		if (resultsize<=1 &&(x>-1 && c >-1) ){
-			if(carry ==1){
-				result[resultsize-1]='1';
-				resultsize--;
-			}
-			for(;resultsize>=1;resultsize--){
-				result[resultsize-1]='0';
+		if (!(x > -1 && c > -1))
+		{
+			if (resultsize >= 1) {
+				if (carry == 1) {
+					result[resultsize - 1] = '1';
+					resultsize--;
+				}
+				while (resultsize >= 1) {
+					result[resultsize - 1] = '0';
+					resultsize--;
 
+				}
 			}
 		}
 	}
-	
 	printf("the result is %s \n",result);
 	return strdup(result);
 }
