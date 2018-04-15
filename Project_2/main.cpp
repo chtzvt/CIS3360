@@ -12,7 +12,8 @@ int  intchunk;
 char chunk18[9];
 char chunk28[9];
 char sum[33];
-
+char temp116[17];
+char temp216[17];
 char chunk116[17];
 char chunk216[17];
 
@@ -21,6 +22,9 @@ char chunk232[33];
 int b;
 int counter2 = 0;
 int characterCnt;
+int counter3;
+int	intchunk2;
+int y;
 	char *pointer2;
 	switch(argv[2][0]) {
 
@@ -119,11 +123,118 @@ int characterCnt;
 		break;
 
 		case '1':
-		if(argv[2][1]!=8){
+		if(argv[2][1]!='6'){
 			fprintf( stderr, "Valid checksum sizes are 8, 16, or 32\n");
 			return 1;
 
 		}
+			strcpy(string, givemestring(argv[1]));
+			lprintf(string);
+			characterCnt=strlen(string);
+			//printf("%i \n",string[0]);
+			for (int j = 0; string[j] != 0; j=j+2) {
+
+				intchunk = binary(string[j]);
+				sprintf(temp116,"%i",intchunk);
+				int k= strlen(temp116);
+				int loop=7;
+				for(;k!=-1;loop--){
+					temp216[loop]=temp116[k];
+					k--;
+				}
+				for(;loop!=-1;loop--){
+					temp216[loop]='0';
+				}
+
+				y=j+1;
+				if(j<=characterCnt) {
+
+					intchunk2 = binary(string[y]);
+				}
+				else {
+					intchunk2=binary('x');
+				}
+				sprintf(chunk116, "%s%i", temp116,intchunk2);
+				//printf("%s ",chunk18);
+
+				if (j == 0) {
+					intchunk = binary(string[2]);
+					intchunk2 = binary(string[3]);
+
+					sprintf(chunk216, "%i%i", intchunk,intchunk2);
+					j++;
+					j++;
+
+				}
+				/* int p=strlen(chunk28);
+				//printf("%i",p);
+				if(p<8){
+					chunk28[8]=0;
+					p--;
+					int o=7;
+					for(o=7;p!=0;p--) {
+						chunk28[o]=chunk28[p];
+						o--;
+
+					}
+					o--;
+					while(o>1) {
+
+						chunk28[o] = '0';
+						o--;
+						//puts("i ran");
+					}
+
+
+				}
+			*/
+				/*
+				int p=strlen(chunk18);
+				//printf("%i",p);
+				if(p<8){
+				chunk18[8]=0;
+				p--;
+				int o=7;
+				for(o=7;p!=0;p--) {
+				chunk18[o]=chunk18[p];
+				o--;
+
+				}
+					o--;
+				while(o>1) {
+
+					chunk18[o] = '0';
+					o--;
+					//puts("i ran");
+				}
+
+
+				} */
+
+
+
+
+
+				//printf("%s \n", chunk18);
+				char *temp = binadd(chunk116, chunk216, 17);
+				strcpy(chunk216, temp);
+
+
+			}
+
+			//bool x;
+			//x= true + true;
+			//printf("%i",x);
+
+			pointer2 = chunk216;
+
+			do {
+				b = *pointer2 == '1' ? 1 : 0;
+				counter2 = (counter2 << 1) | b;
+				pointer2++;
+			} while (*pointer2);
+
+			printf("%s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
 
 
 		break;
