@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #define MAXSIZE 10000
 int binary(int i);
-char* binadd(char *v1, char *v2);
+char* binadd(char *v1, char *v2 , int carrysize);
 int main(int argc, char** argv){
 char string[MAXSIZE];
 int  intchunk;
@@ -19,27 +19,27 @@ char chunk216[17];
 char chunk132[33];
 char chunk232[33];
 
-	switch(argv[1][0]){
+	switch(argv[2][0]) {
 
 		case '8':
-		strcpy(string ,givemestring(argv[2]));
-	lprintf(string);
-		//printf("%i \n",string[0]);
-			for(int j=0 ; string[j]!=0;j++) {
+			strcpy(string, givemestring(argv[1]));
+			lprintf(string);
+			//printf("%i \n",string[0]);
+			for (int j = 0; string[j] != 0; j++) {
 				intchunk = string[j];
 
-				sprintf(chunk18,"%i", binary(intchunk));
+				sprintf(chunk18, "%i", binary(intchunk));
 				//printf("%s ",chunk18);
 
-				if( j==0){
+				if (j == 0) {
 					intchunk = string[1];
 
 
-					sprintf(chunk28,"%i\0", binary(intchunk));
+					sprintf(chunk28, "%i\0", binary(intchunk));
 					j++;
 
-
-					int p=strlen(chunk28);
+				}
+					/* int p=strlen(chunk28);
 					//printf("%i",p);
 					if(p<8){
 						chunk28[8]=0;
@@ -60,38 +60,41 @@ char chunk232[33];
 
 
 					}
-				}
-				int p=strlen(chunk18);
-				//printf("%i",p);
-				if(p<8){
-				chunk18[8]=0;
-				p--;
-				int o=7;
-				for(o=7;p!=0;p--) {
-				chunk18[o]=chunk18[p];
-				o--;
-
-				}
+				*/
+					/*
+					int p=strlen(chunk18);
+					//printf("%i",p);
+					if(p<8){
+					chunk18[8]=0;
+					p--;
+					int o=7;
+					for(o=7;p!=0;p--) {
+					chunk18[o]=chunk18[p];
 					o--;
-				while(o>1) {
 
-					chunk18[o] = '0';
-					o--;
-					//puts("i ran");
-				}
+					}
+						o--;
+					while(o>1) {
 
-
-				}
-
-
+						chunk18[o] = '0';
+						o--;
+						//puts("i ran");
+					}
 
 
+					} */
 
-				printf("%s \n",chunk18);
-				char* temp = binadd(chunk18,chunk28);
-				strcpy(temp,chunk28);
+
+
+
+
+					printf("%s \n", chunk18);
+					char *temp = binadd(chunk18, chunk28,9);
+					strcpy(chunk28, temp);
+
 
 			}
+
 			//bool x;
 			//x= true + true;
 			//printf("%i",x);
@@ -104,7 +107,7 @@ char chunk232[33];
 		break;
 
 		case '1':
-		if(argv[1][1]!=8){
+		if(argv[2][1]!=8){
 			fprintf( stderr, "Valid checksum sizes are 8, 16, or 32\n");
 			return 1;
 
@@ -115,7 +118,7 @@ char chunk232[33];
 
 		case '3':
 
-			if(argv[1][1]!=2){
+			if(argv[2][1]!=2){
 				fprintf( stderr, "Valid checksum sizes are 8, 16, or 32\n");
 				return 1;
 
@@ -149,44 +152,77 @@ else
 
 }
 
-char* binadd(char v1[], char v2[]){
+char* binadd(char v1[], char v2[],int resultsize){
 	printf("the input is v1= %s v2 = %s \n",v1,v2);
-	int vl = strlen(v1);
-	char result[vl+1];
-	result[vl] =0;
+	int vl1 = strlen(v1);
+	int vl2 = strlen(v2);
+	char result[resultsize]={0};
+	resultsize--;
+	
 	int carry=0;
-	for(int x =vl-1; x>-1;x--){
-		if ((v1[x]=='0') && (v2[x]=='0') && (carry==0)){
-		result[x]='0';
+	int x =vl1-1;
+	int c =vl2-1;
+	char value1 , value2;
+	while( x>-1 && c >-1){
+		if(x==0){
+			value1 = '0';
 		}
-		else if ((v1[x]=='0') && (v2[x]=='0') && (carry==1)){
-			result[x]='1';
+		else{
+			value1= v1[x];
 		}
-		else if ((v1[x]=='1') && (v2[x]=='0') && (carry==0)){
-			result[x]='1';
+		if(c==0){
+			value2 = '0';
 		}
-		else if ((v1[x]=='1') && (v2[x]=='1') && (carry==0)){
-			result[x]='0';
+		else{
+			value2= v2[c];
+		}
+
+		if ((value1=='0') && (value2=='0') && (carry==0)){
+		result[resultsize-1]='0';
+		}
+		else if ((value1=='0') && (value2=='0') && (carry==1)){
+			result[resultsize-1]='1';
+		}
+		else if ((value1=='1') && (value2=='0') && (carry==0)){
+			result[resultsize-1]='1';
+		}
+		else if ((value1=='1') && (value2=='1') && (carry==0)){
+			result[resultsize-1]='0';
 			carry =1;
 		}
-		else if ((v1[x]=='1') && (v2[x]=='1') && (carry==1)){
-			result[x]='1';
+		else if ((value1=='1') && (value2=='1') && (carry==1)){
+			result[resultsize-1]='1';
 			carry =1;
 		}
-		else if ((v1[x]=='0') && (v2[x]=='1') && (carry==1)){
-			result[x]='0';
+		else if ((value1=='0') && (value2=='1') && (carry==1)){
+			result[resultsize-1]='0';
 			carry =1;
 		}
-		else if ((v1[x]=='1') && (v2[x]=='0') && (carry==1)){
-			result[x]='0';
+		else if ((value1=='1') && (value2=='0') && (carry==1)){
+			result[resultsize-1]='0';
 			carry =1;
 		}
-		else if ((v1[x]=='0') && (v2[x]=='1') && (carry==0)){
-			result[x]='1';
+		else if ((value1=='0') && (value2=='1') && (carry==0)){
+			result[resultsize-1]='1';
 			carry =0;
 		}
-		else printf("missed me with v1=%c v2=%c and carry =%i",v1[x],v2[x],carry);
+	
+		else printf("missed me with v1=%c v2=%c and carry =%i",value1,value2,carry);
+		x--;
+		c--;
+		resultsize--;
+		if (resultsize<=1 &&(x>-1 && c >-1) ){
+			if(carry ==1){
+				result[resultsize-1]='1';
+				resultsize--;
+			}
+			for(;resultsize>=1;resultsize--){
+				result[resultsize-1]='0';
+
+			}
+		}
 	}
+	
 	printf("the result is %s \n",result);
 	return strdup(result);
 }
