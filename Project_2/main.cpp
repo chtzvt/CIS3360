@@ -35,7 +35,7 @@ char chunk232[33];
 					intchunk = string[1];
 
 
-					sprintf(chunk28, "%i\0", binary(intchunk));
+					sprintf(chunk28, "%i", binary(intchunk));
 					j++;
 
 				}
@@ -179,6 +179,7 @@ char* binadd(char v1[], char v2[],int resultsize){
 			result[resultsize - 1] = '0';
 		} else if ((value1 == '0') && (value2 == '0') && (carry == 1)) {
 			result[resultsize - 1] = '1';
+			carry--;
 		} else if ((value1 == '1') && (value2 == '0') && (carry == 0)) {
 			result[resultsize - 1] = '1';
 		} else if ((value1 == '1') && (value2 == '1') && (carry == 0)) {
