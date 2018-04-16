@@ -14,14 +14,16 @@ int  intchunk;
 char chunk18[9];
 char chunk28[9];
 char sum[33];
-char temp116[17];
-char temp216[17];
-char chunk116[17];
-char chunk216[17];
+char temp116[33];
+char temp216[33];
+char temp316[33];
+char temp416[33];
+char chunk116[100];
+char chunk216[100];
 
 char chunk132[33];
 char chunk232[33];
-int b;
+int b, k;
 int counter2 = 0;
 int characterCnt;
 int counter3;
@@ -410,13 +412,464 @@ int y;
 
 		case '3':
 
-			if(argv[2][1]!=2){
+			if(argv[2][1]!='2'){
 				fprintf( stderr, "Valid checksum sizes are 8, 16, or 32\n");
 				return 1;
 
 			}
+			strcpy(string, givemestring(argv[1]));
+			lprintf(string);
+			characterCnt=strlen(string);
+			k=1;
+			while(k!=0){
+				k=characterCnt%4;
+				if(k==0)
+					break;
+				string[characterCnt]='X';
+				characterCnt++;
+			}
 
-		break;
+
+			donechar=characterCnt;
+			//printf("%i \n",string[0]);
+
+			for (int j = 0; string[j] != 0; j=j+4) {
+
+				intchunk = binary(string[j]);
+				int number =intchunk;
+				digits = 1;
+
+				while (number > 9) {
+					number /= 10;
+					digits++;
+				}
+
+
+				if( digits ==1){
+					sprintf(temp116,"0000000%i",intchunk);
+
+				}
+				else if( digits ==2){
+					sprintf(temp116,"000000%i",intchunk);
+
+				}
+				else if( digits==3){
+					sprintf(temp116,"00000%i",intchunk);
+
+				}
+				else if( digits== 4){
+					sprintf(temp116,"0000%i",intchunk);
+
+				}
+				else if( digits==5){
+					sprintf(temp116,"000%i",intchunk);
+
+				}
+				else if( digits==6){
+					sprintf(temp116,"00%i",intchunk);
+
+				}
+				else if( digits==7){
+					sprintf(temp116,"0%i",intchunk);
+
+				}
+				else{
+					sprintf(temp116,"%i",intchunk);
+				}
+				int k= strlen(temp116);
+
+
+
+
+					intchunk2 = binary(string[j+1]);
+					donechar--;
+					int number2 =intchunk2;
+					digits = 1;
+
+					while (number2 > 9) {
+						number2 /= 10;
+						digits++;
+					}
+
+
+					if( digits ==1){
+						sprintf(temp216,"0000000%i",intchunk2);
+
+					}
+
+					else if( digits ==2){
+						sprintf(temp216,"000000%i",intchunk2);
+
+					}
+					else if( digits==3){
+						sprintf(temp216,"00000%i",intchunk2);
+
+					}
+					else if( digits== 4){
+						sprintf(temp216,"0000%i",intchunk2);
+
+					}
+					else if( digits==5){
+						sprintf(temp216,"000%i",intchunk2);
+
+					}
+					else if( digits==6){
+						sprintf(temp216,"00%i",intchunk2);
+
+					}
+					else if( digits==7){
+						sprintf(temp216,"0%i",intchunk2);
+
+					}
+
+					else{
+						sprintf(temp216,"%i",intchunk2);
+					}
+
+
+				intchunk = binary(string[j+2]);
+				number =intchunk;
+				digits = 1;
+
+				while (number > 9) {
+					number /= 10;
+					digits++;
+				}
+				if( digits ==1){
+					sprintf(temp316,"0000000%i",intchunk);
+
+				}
+				else if( digits ==2){
+					sprintf(temp316,"000000%i",intchunk);
+
+				}
+				else if( digits==3){
+					sprintf(temp316,"00000%i",intchunk);
+
+				}
+				else if( digits== 4){
+					sprintf(temp316,"0000%i",intchunk);
+
+				}
+				else if( digits==5){
+					sprintf(temp316,"000%i",intchunk);
+
+				}
+				else if( digits==6){
+					sprintf(temp316,"00%i",intchunk);
+
+				}
+				else if( digits==7){
+					sprintf(temp316,"0%i",intchunk);
+
+				}
+				else{
+					sprintf(temp316,"%i",intchunk);
+				}
+
+
+
+
+
+
+
+					intchunk2 = binary(string[j+3]);
+					donechar--;
+					 number2 =intchunk2;
+					digits = 1;
+
+					while (number2 > 9) {
+						number2 /= 10;
+						digits++;
+					}
+
+
+					if( digits ==1){
+						sprintf(temp416,"0000000%i",intchunk2);
+
+					}
+
+					else if( digits ==2){
+						sprintf(temp416,"000000%i",intchunk2);
+
+					}
+					else if( digits==3){
+						sprintf(temp416,"00000%i",intchunk2);
+
+					}
+					else if( digits== 4){
+						sprintf(temp416,"0000%i",intchunk2);
+
+					}
+					else if( digits==5){
+						sprintf(temp416,"000%i",intchunk2);
+
+					}
+					else if( digits==6){
+						sprintf(temp416,"00%i",intchunk2);
+
+					}
+					else if( digits==7){
+						sprintf(temp416,"0%i",intchunk2);
+
+					}
+					else{
+						sprintf(temp416,"%i",intchunk2);
+					}
+
+				sprintf(chunk116, "%s%s%s%s", temp116,temp216,temp316,temp416);
+				//printf("%s ",chunk18);
+
+				if (j == 0) {
+					intchunk = binary(string[4]);
+					intchunk2 = binary(string[5]);
+					int intchunk3 = binary(string[6]);
+					int intchunk4 = binary(string[7]);
+
+					int number =intchunk;
+					digits = 1;
+
+					while (number > 9) {
+						number /= 10;
+						digits++;
+					}
+
+
+					if( digits ==1){
+						sprintf(temp116,"0000000%i",intchunk);
+
+					}
+					else if( digits ==2){
+						sprintf(temp116,"000000%i",intchunk);
+
+					}
+					else if( digits==3){
+						sprintf(temp116,"00000%i",intchunk);
+
+					}
+					else if( digits== 4){
+						sprintf(temp116,"0000%i",intchunk);
+
+					}
+					else if( digits==5){
+						sprintf(temp116,"000%i",intchunk);
+
+					}
+					else if( digits==6){
+						sprintf(temp116,"00%i",intchunk);
+
+					}
+					else if( digits==7){
+						sprintf(temp116,"0%i",intchunk);
+
+					}
+					else{
+						sprintf(temp116,"%i",intchunk);
+					}
+
+
+					int number2 =intchunk3;
+					digits = 1;
+
+					while (number2 > 9) {
+						number2 /= 10;
+						digits++;
+					}
+
+
+					if( digits ==1){
+						sprintf(temp316,"0000000%i",intchunk3);
+
+					}
+
+					else if( digits ==2){
+						sprintf(temp316,"000000%i",intchunk3);
+
+					}
+					else if( digits==3){
+						sprintf(temp316,"00000%i",intchunk3);
+
+					}
+					else if( digits== 4){
+						sprintf(temp316,"0000%i",intchunk3);
+
+					}
+					else if( digits==5){
+						sprintf(temp316,"000%i",intchunk3);
+
+					}
+					else if( digits==6){
+						sprintf(temp316,"00%i",intchunk3);
+
+					}
+					else if( digits==7){
+						sprintf(temp316,"0%i",intchunk3);
+
+					}
+					else{
+						sprintf(temp316,"%i",intchunk3);
+					}
+					number=intchunk4;
+					digits =1;
+					while (number > 9) {
+						number /= 10;
+						digits++;
+					}
+
+
+					if( digits ==1){
+						sprintf(temp416,"0000000%i",intchunk4);
+
+					}
+					else if( digits ==2){
+						sprintf(temp416,"000000%i",intchunk4);
+
+					}
+					else if( digits==3){
+						sprintf(temp416,"00000%i",intchunk4);
+
+					}
+					else if( digits== 4){
+						sprintf(temp416,"0000%i",intchunk4);
+
+					}
+					else if( digits==5){
+						sprintf(temp416,"000%i",intchunk4);
+
+					}
+					else if( digits==6){
+						sprintf(temp416,"00%i",intchunk4);
+
+					}
+					else if( digits==7){
+						sprintf(temp416,"0%i",intchunk4);
+
+					}
+					else{
+						sprintf(temp416,"%i",intchunk4);
+					}
+
+
+					number2 =intchunk2;
+					digits = 1;
+
+					while (number2 > 9) {
+						number2 /= 10;
+						digits++;
+					}
+
+
+					if( digits ==1){
+						sprintf(temp216,"0000000%i",intchunk2);
+
+					}
+
+					else if( digits ==2){
+						sprintf(temp216,"000000%i",intchunk2);
+
+					}
+					else if( digits==3){
+						sprintf(temp216,"00000%i",intchunk2);
+
+					}
+					else if( digits== 4){
+						sprintf(temp216,"0000%i",intchunk2);
+
+					}
+					else if( digits==5){
+						sprintf(temp216,"000%i",intchunk2);
+
+					}
+					else if( digits==6){
+						sprintf(temp216,"00%i",intchunk2);
+
+					}
+					else if( digits==7){
+						sprintf(temp216,"0%i",intchunk2);
+
+					}
+					else{
+						sprintf(temp216,"%i",intchunk2);
+					}
+					sprintf(chunk216, "%s%s%s%s", temp116,temp216,temp316,temp416);
+					j++;
+					j++;
+					j++;
+					j++;
+
+				}
+				/* int p=strlen(chunk28);
+				//printf("%i",p);
+				if(p<8){
+					chunk28[8]=0;
+					p--;
+					int o=7;
+					for(o=7;p!=0;p--) {
+						chunk28[o]=chunk28[p];
+						o--;
+
+					}
+					o--;
+					while(o>1) {
+
+						chunk28[o] = '0';
+						o--;
+						//puts("i ran");
+					}
+
+
+				}
+			*/
+				/*
+				int p=strlen(chunk18);
+				//printf("%i",p);
+				if(p<8){
+				chunk18[8]=0;
+				p--;
+				int o=7;
+				for(o=7;p!=0;p--) {
+				chunk18[o]=chunk18[p];
+				o--;
+
+				}
+					o--;
+				while(o>1) {
+
+					chunk18[o] = '0';
+					o--;
+					//puts("i ran");
+				}
+
+
+				} */
+
+
+
+
+
+				//printf("%s \n", chunk18);
+				char *temp = binadd(chunk116, chunk216, 33);
+				strcpy(chunk216, temp);
+
+
+			}
+
+			//bool x;
+			//x= true + true;
+			//printf("%i",x);
+
+			pointer2 = chunk216;
+			printf("final binary is  %s \n",chunk216);
+			do {
+				b = *pointer2 == '1' ? 1 : 0;
+				counter2 = (counter2 << 1) | b;
+				pointer2++;
+			} while (*pointer2);
+
+			printf("%s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
+
+
+			break;
 
 
 		default:
