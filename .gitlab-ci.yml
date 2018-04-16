@@ -2,6 +2,6 @@ image: gcc
 
 build:
   stage: build
-  script: ./build.sh
+  script: gcc ./Project_2/main.cpp
   artifacts:
     

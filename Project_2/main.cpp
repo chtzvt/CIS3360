@@ -9,7 +9,7 @@
 int binary(int i);
 char* binadd(char *v1, char *v2 , int carrysize);
 int main(int argc, char** argv){
-char string[MAXSIZE];
+char string[MAXSIZE] {0};
 int  intchunk;
 char chunk18[9];
 char chunk28[9];
@@ -135,6 +135,10 @@ int y;
 			strcpy(string, givemestring(argv[1]));
 			lprintf(string);
 			characterCnt=strlen(string);
+			if(characterCnt%2==1){
+				string[characterCnt]='X';
+				characterCnt++;
+			}
 			 donechar=characterCnt;
 			//printf("%i \n",string[0]);
 
@@ -186,56 +190,57 @@ int y;
 
 				y=j+1;
 
-				if(j<=donechar) {
+				if(j<=donechar || characterCnt %2 ==0) {
 
 					intchunk2 = binary(string[y]);
 					donechar--;
+					int number2 =intchunk2;
+					digits = 1;
+
+					while (number2 > 9) {
+						number2 /= 10;
+						digits++;
+					}
+
+
+					if( digits ==1){
+						sprintf(temp216,"0000000%i",intchunk2);
+
+					}
+
+					else if( digits ==2){
+						sprintf(temp216,"000000%i",intchunk2);
+
+					}
+					else if( digits==3){
+						sprintf(temp216,"00000%i",intchunk2);
+
+					}
+					else if( digits== 4){
+						sprintf(temp216,"0000%i",intchunk2);
+
+					}
+					else if( digits==5){
+						sprintf(temp216,"000%i",intchunk2);
+
+					}
+					else if( digits==6){
+						sprintf(temp216,"00%i",intchunk2);
+
+					}
+					else if( digits==7){
+						sprintf(temp216,"0%i",intchunk2);
+
+					}
+					else{
+						sprintf(temp216,"%i",intchunk2);
+					}
 				}
 				else {
-					intchunk2=binary('x');
+					strcpy(temp216,"01011000");
 					characterCnt++;
 				}
-				int number2 =intchunk2;
-				digits = 1;
 
-				while (number2 > 9) {
-					number2 /= 10;
-					digits++;
-				}
-
-
-				if( digits ==1){
-					sprintf(temp216,"0000000%i",intchunk2);
-
-				}
-
-				else if( digits ==2){
-					sprintf(temp216,"000000%i",intchunk2);
-
-				}
-				else if( digits==3){
-					sprintf(temp216,"00000%i",intchunk2);
-
-				}
-				else if( digits== 4){
-					sprintf(temp216,"0000%i",intchunk2);
-
-				}
-				else if( digits==5){
-					sprintf(temp216,"000%i",intchunk2);
-
-				}
-				else if( digits==6){
-					sprintf(temp216,"00%i",intchunk2);
-
-				}
-				else if( digits==7){
-					sprintf(temp216,"0%i",intchunk2);
-
-				}
-				else{
-					sprintf(temp216,"%i",intchunk2);
-				}
 				sprintf(chunk116, "%s%s", temp116,temp216);
 				//printf("%s ",chunk18);
 
@@ -391,7 +396,7 @@ int y;
 			//printf("%i",x);
 
 			pointer2 = chunk216;
-
+			printf("final binary is  %s \n",chunk216);
 			do {
 				b = *pointer2 == '1' ? 1 : 0;
 				counter2 = (counter2 << 1) | b;
@@ -507,6 +512,6 @@ char* binadd(char v1[], char v2[],int resultsize){
 		jump:;
 	}}}
 
-	printf("the result is %s \n",result);
+	//printf("the result is %s \n",result);
 	return strdup(result);
 }
