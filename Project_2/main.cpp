@@ -36,6 +36,7 @@ int y;
 
 		case '8':
 			strcpy(string, givemestring(argv[1]));
+			puts("");
 			lprintf(string);
 			//printf("%i \n",string[0]);
 			for (int j = 0; string[j] != 0; j++) {
@@ -135,12 +136,14 @@ int y;
 
 		}
 			strcpy(string, givemestring(argv[1]));
-			lprintf(string);
+
 			characterCnt=strlen(string);
 			if(characterCnt%2==1){
 				string[characterCnt]='X';
 				characterCnt++;
 			}
+			puts("");
+			lprintf(string);
 			 donechar=characterCnt;
 			//printf("%i \n",string[0]);
 
@@ -398,7 +401,7 @@ int y;
 			//printf("%i",x);
 
 			pointer2 = chunk216;
-			printf("final binary is  %s \n",chunk216);
+		//	printf("final binary is  %s \n",chunk216);
 			do {
 				b = *pointer2 == '1' ? 1 : 0;
 				counter2 = (counter2 << 1) | b;
@@ -418,7 +421,7 @@ int y;
 
 			}
 			strcpy(string, givemestring(argv[1]));
-			lprintf(string);
+
 			characterCnt=strlen(string);
 			k=1;
 			while(k!=0){
@@ -428,7 +431,8 @@ int y;
 				string[characterCnt]='X';
 				characterCnt++;
 			}
-
+			puts("");
+			lprintf(string);
 
 			donechar=characterCnt;
 			//printf("%i \n",string[0]);
@@ -859,14 +863,14 @@ int y;
 			//printf("%i",x);
 
 			pointer2 = chunk216;
-			printf("final binary is  %s \n",chunk216);
+		//	printf("final binary is  %s \n",chunk216);
 			do {
 				b = *pointer2 == '1' ? 1 : 0;
 				counter2 = (counter2 << 1) | b;
 				pointer2++;
 			} while (*pointer2);
 
-			printf("%s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
+			printf(" %s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
 
 
 			break;
@@ -898,12 +902,12 @@ else
 }
 
 char* binadd(char v1[], char v2[],int resultsize){
-	printf("the input is v1= %s v2 = %s \n",v1,v2);
+	//printf("the input is v1= %s v2 = %s \n",v1,v2);
 	int vl1 = strlen(v1);
 	int vl2 = strlen(v2);
 	char result[resultsize]={0};
 	resultsize--;
-	
+
 	int carry=0;
 	int x =vl1-1;
 	int c =vl2-1;
