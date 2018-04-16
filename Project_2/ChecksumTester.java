@@ -45,16 +45,14 @@ public class ChecksumTester {
         byte[] byte_chunk = new byte[chunk_sz];
         int chunk_sum = 0;
         
-        for(int i = 0; i < chunk_sz; i++){
+        for(int i = 0; i < chunk_sz; i++)
           byte_chunk[i] = input[chunk + i];
-        }
         
-        for(byte b : byte_chunk){
-          //System.out.printf("%nChunk: %d %nChunk Size: %d%n Current: [%d]%n",chunk,chunk_sz,b);
+        for(byte b : byte_chunk)
           chunk_sum += b & 0xff;
-        }
         
-        sum += (chunk_sum);
+        // Don't just add to the sum, add the sum of 2 chunks together to the overall checksum
+        sum += chunk_sum;
         
       }
       
@@ -66,12 +64,13 @@ public class ChecksumTester {
     
     String testString = "AAAAAAAAAA" + System.lineSeparator();
     String testString_16 = "AAAAAAAAAA" + System.lineSeparator() + 'X';
+    
     ChecksumCalculator checksum = new ChecksumCalculator();
     
     int sum_8 = checksum.fromString(testString, checksum.MASK_8_BIT);
     System.out.printf("Sum 8: %s%n", Integer.toHexString(sum_8));
+    
     int sum_16 = checksum.fromString(testString_16, checksum.MASK_16_BIT);
-
     System.out.printf("Sum 16: %s%n", Integer.toHexString(sum_16));
 
   }
