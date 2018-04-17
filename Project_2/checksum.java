@@ -9,54 +9,70 @@ import java.io.*;
 
 public class checksum {
   
-  // I'm the operator with my Checksum calculator
+  // I'm the operator with my checksum calculator
   private static class ChecksumCalculator {
+    private static int[] SIZES_AVAILABLE = {8, 16, 32};
     
-    public static class Bitmath {
-      public static int calculate(byte[] input, int sum_size){
-        int[] sum_values = chunkBytes(input, sum_size);
-        int sum = 0;
-        
-        for(int val : sum_values)
-          sum += val;
-        
-        return sum & (int)(Math.pow(2, sum_size) - 1);
-        
-      }
-      
+    private static class Bitmath {
+      // This method, given an array of bytes (e.g. ascii characters in byte form)
+      // will generate a new array of integers that are correctly sized in proportion to
+      // the size of the requested checksum.
+      // As an example, 16 bit checksum would use 2 such bytes of input at a time, while a 32 bit one
+      // would use 4.
       private static int[] chunkBytes(byte[] input, int sum_size){
-        int subgroup_width = sum_size / 8;
-        int[] values = new int[input.length / subgroup_width];
+        int sum_val_width = sum_size / 8;
+        int[] checksum_values = new int[input.length / sum_val_width];
         int j = 0;
         
-        for(int i = 0; i < input.length; i += subgroup_width){
+        for(int i = 0; i < input.length; i += sum_val_width){
           switch(sum_size){
             case 16:
-              values[j] = (int)((short)((input[i] << 8) | (input[i + 1] & 0xFF)));
+              checksum_values[j] = (int)((short)((input[i] << 8) | (input[i + 1] & 0xFF)));
               break;
               
             case 32:
-              values[j] = ((input[i] << 24) | (input[i + 1] << 16) | (input[i + 2] << 8) | input[i + 3]) & 0xFFFFFFFF;
+              checksum_values[j] = ((input[i] << 24) | (input[i + 1] << 16) | (input[i + 2] << 8) | input[i + 3]) & 0xFFFFFFFF;
               break;
               
             default:
-              values[j] = input[i] & 0xFF;
+              checksum_values[j] = input[i] & 0xFF;
           }
           
           j++;
         }
         
-        return values;
+        return checksum_values;
         
       }
     }
-      
+    
+    // Converts a string to an array of bytes, then calls calcFromBytes
     public static int calcFromString(String input, int sum_size){
-      return Bitmath.calculate(input.getBytes(), sum_size);
+      return calcFromBytes(input.getBytes(), sum_size);
     }
-      
+    
+    // Given an array of bytes, this method will first generate an array of
+    // appropriately wide values for the requested sum size. It will then add
+    // up all the resized values, finally applying the appropriate mask for the sum size
+    // provided.
     public static int calcFromBytes(byte[] input, int sum_size){
-      return Bitmath.calculate(input, sum_size);
+      int[] sum_values = Bitmath.chunkBytes(input, sum_size);
+      int sum = 0;
+      
+      for(int val : sum_values)
+        sum += val;
+      
+      return sum & (int)(Math.pow(2, sum_size) - 1);
+    }
+    
+    // This method determines the validity of a requested check size, returning
+    // false if calculations for that size have not been implemented
+    public static boolean validateCheckSize(int sum_size){
+      for(int i = 0; i < ChecksumCalculator.SIZES_AVAILABLE.length; i++)
+        if(sum_size == ChecksumCalculator.SIZES_AVAILABLE[i])
+          return true;
+      
+      return false;
     }
     
   }
@@ -101,9 +117,7 @@ public class checksum {
     }
     
     public static String addPadding(String plaintext, int mod){
-      // Compute the total number of times the key fits into the plaintext, rounding up
       int key_padding = (plaintext.length() / mod) + ((plaintext.length() % mod == 0) ? 0 : 1);
-      // Padding amount = amount to pad plaintext to fit the key into it evenly
       int padAmount = (key_padding * mod) - plaintext.length();
 
       for(int i = 0; i < padAmount; i++)
@@ -116,7 +130,7 @@ public class checksum {
   
   // handles program output display (80 column block formatting, etc)
   private static class OutputFormatter {
-    private static int OUTPUT_LINE_LENGTH = 80;
+    private static final int OUTPUT_LINE_LENGTH = 80;
     
     private OutputFormatter(){
       super();
@@ -143,10 +157,15 @@ public class checksum {
   }
   
   public static void main(String[] args){
-        
-    String file_contents = FileHandler.readFile(args[0]);
-    int sum_size = Integer.parseInt(args[1]);
     
+    int sum_size = Integer.parseInt(args[1]);
+
+    if(ChecksumCalculator.validateCheckSize(sum_size) == false){
+      System.err.printf("Valid checksum sizes are 8, 16, or 32\n");
+      System.exit(0);
+    }
+
+    String file_contents = FileHandler.readFile(args[0]);
     String padded_text = InputFormatter.addPadding(file_contents, sum_size / 8);
     
     System.out.printf("%n");
