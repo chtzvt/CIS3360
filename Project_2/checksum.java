@@ -13,11 +13,13 @@ public class checksum {
   private static class ChecksumCalculator {
     private static int[] SIZES_AVAILABLE = {8, 16, 32};
     
+    // Nested class to contain all of our bitwise bean-counting
     private static class Bitmath {
-      // This method, given an array of bytes (e.g. ascii characters in byte form)
+      // This method, given an array of 8 bit bytes (e.g. ascii characters)
       // will generate a new array of integers that are correctly sized in proportion to
-      // the size of the requested checksum.
-      // As an example, 16 bit checksum would use 2 such bytes of input at a time, while a 32 bit one
+      // the size of the requested checksum. We'll use this to rearrange the individual bytes
+      // in `input` into groups that are correctly sized in proportion to the size of the requested checksum.
+      // As an example, a 16 bit checksum would use 2 such bytes of input at a time, while a 32 bit one
       // would use 4.
       private static int[] chunkBytes(byte[] input, int sum_size){
         int sum_val_width = sum_size / 8;
@@ -46,7 +48,8 @@ public class checksum {
       }
     }
     
-    // Converts a string to an array of bytes, then calls calcFromBytes
+    // First converts a string to an array of bytes, then calls calcFromBytes to generate a
+    // checksum
     public static int calcFromString(String input, int sum_size){
       return calcFromBytes(input.getBytes(), sum_size);
     }
@@ -83,6 +86,7 @@ public class checksum {
       super();
     }
     
+    // Given a filename, this method will return its full contents as a string
     private static String readFile(String filename){
         
       String file_line = "";
@@ -110,7 +114,7 @@ public class checksum {
     
   }
   
-  // Cleans/pads/formats input files
+  // This class cleans, pads, and formats program input
   private static class InputFormatter {
     public InputFormatter(){
       super();
@@ -128,7 +132,7 @@ public class checksum {
     
   }
   
-  // handles program output display (80 column block formatting, etc)
+  // handles program output display (specifically, 80 column block formatting)
   private static class OutputFormatter {
     private static final int OUTPUT_LINE_LENGTH = 80;
     
@@ -158,22 +162,25 @@ public class checksum {
   
   public static void main(String[] args){
     
+    // Determine the validity of the given checksum size
     int sum_size = Integer.parseInt(args[1]);
-
+    
     if(ChecksumCalculator.validateCheckSize(sum_size) == false){
-      System.err.printf("Valid checksum sizes are 8, 16, or 32\n");
-      System.exit(0);
+      System.err.printf("Valid checksum sizes are 8, 16, or 32%n");
+      System.exit(1);
     }
-
+    
+    // Load the source text file, and pad it appropriately
     String file_contents = FileHandler.readFile(args[0]);
     String padded_text = InputFormatter.addPadding(file_contents, sum_size / 8);
     
+    // Print the soure text out, honoring the 80 column formatting
     System.out.printf("%n");
     OutputFormatter.printBlockOutput(padded_text);
     System.out.printf("%n");
     
+    // Calculate and print our checksum
     int checksum = ChecksumCalculator.calcFromString(padded_text, sum_size);
-    
     System.out.printf("%2d bit checksum is %8x for all %4d chars%n", sum_size, checksum, padded_text.length());
     
     System.exit(0);
