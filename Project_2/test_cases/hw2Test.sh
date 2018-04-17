@@ -1,6 +1,6 @@
 case $1 in
 checksum.c)
-	gcc checksum.c 
+	gcc checksum.c
 	EXE="./a.out"
 	;;
 checksum.cpp)
@@ -89,4 +89,3 @@ diff sWC2-Output16.txt sWC2-Base16.txt
 echo "Case #5 - 32 bit checksum"
 eval $EXE inWC2.txt 32 >sWC2-Output32.txt
 diff sWC2-Output32.txt sWC2-Base32.txt
-
