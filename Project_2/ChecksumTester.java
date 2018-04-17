@@ -1,7 +1,7 @@
 /*
  * CIS3360 - Spring 2018
  * Security in Computing - Assignment 2
- * Submitted by: Charlton Trezevant and Alexander Cote
+ * Submitted by: Charlton Trezevant
  */
 
 import java.util.*;
@@ -11,69 +11,56 @@ import java.nio.charset.StandardCharsets;
 public class ChecksumTester {
   
   private static class ChecksumCalculator {
-    public static final int MASK_8_BIT = 0xFF;
-    public static final int MASK_16_BIT = 0xFFFF;
-    public static final int MASK_32_BIT = 0xFFFFFFFF;
     
-    public ChecksumCalculator(){
-      super();
-    }
-
-    public int fromString(String input, int mask){
-      return this.fromBytes(input.getBytes(), mask);
-    }
-    
-    public static int fromBytes(byte[] input, int mask){
-      int sum = 0;
-      int chunk_sz;
-      
-      switch(mask){
-        case MASK_16_BIT:
-          chunk_sz = 2;
-          break;
-          
-        case MASK_32_BIT:
-          chunk_sz = 4;
-          break;
-          
-        default: // assumes MASK_8_BIT
-          chunk_sz = 1;
-      }
-      
-      int num_chunks = input.length / chunk_sz;
-      byte[][] chunks = new byte[num_chunks][chunk_sz];
-
-      for(int i = 0; i < input.length; i += chunk_sz)
-        for(int j = 0; j < chunk_sz; j++)
-          chunks[i / num_chunks][j] = input[chunk + j];
-      
-      for(int i = 0; i < chunks.length; i++){
+    public static class Bitmath {
+      public static int calculate(byte[] input, int sum_size){
+        int[] sum_values = chunkBytes(input, sum_size);
+        int sum = 0;
+        
+        for(int val : sum_values)
+          sum += val;
+        
+        return sum & (int)(Math.pow(2, sum_size) - 1);
         
       }
       
+      public static int[] chunkBytes(byte[] input, int sum_size){
+        int subgroup_width = sum_size / 8;
+        int[] values = new int[input.length / subgroup_width];
+        int j = 0;
         
-      for(byte b : byte_chunk) // replace this with logic for packing chunks
-
+        for(int i = 0; i < input.length; i += subgroup_width){
+          switch(sum_size){
+            case 16:
+              values[j] = (int) ( (short) ((input[i] << 8) | (input[i + 1] & 0xFF)) ); //this is the array of bytes to actually sum up
+              break;
+              
+            case 32:
+              values[j] = ((input[i] << 24) | (input[i + 1] << 16) | (input[i + 2] << 8) | input[i + 3]) & 0xFFFFFFFF;
+              break;
+              
+            default: // default: assumes MASK_8_BIT
+              values[j] = (int)(input[i] & 0xFF);
+          }
           
+          j++;
+        }
         
+        return values;
         
-      // Don't just add to the sum, add the sum of 2 chunks together to the overall checksum
+      }
+    }
       
-      return sum & mask;
+    public static int calcFromString(String input, int sum_size){
+      return Bitmath.calculate(input.getBytes(), sum_size);
     }
-  
-    private int packChunk8(byte[] chunk){
-      return chunk[0] & MASK_8_BIT;
-    }
-  
-    private short packChunk16(byte[] chunk){
-      return (short) ((chunk[0] << 8) | (chunk[2] & MASK_8_BIT));
+      
+    public static int calcFromBytes(byte[] input, int sum_size){
+      return Bitmath.calculate(input, sum_size);
     }
     
-    private long packChunk32(byte[] chunk){
-      return ((chunk[0] << 24) | (chunk[1] << 16) | (chunk[2] << 8) | chunk[3]) & MASK_32_BIT;
-    }
   }
+
   
   public static void main(String[] args){
     
@@ -82,10 +69,10 @@ public class ChecksumTester {
     
     ChecksumCalculator checksum = new ChecksumCalculator();
     
-    int sum_8 = checksum.fromString(testString, checksum.MASK_8_BIT);
+    int sum_8 = checksum.calcFromString(testString, 8);
     System.out.printf("Sum 8: %s%n", Integer.toHexString(sum_8));
     
-    int sum_16 = checksum.fromString(testString_16, checksum.MASK_16_BIT);
+    int sum_16 = checksum.calcFromString(testString_16, 16);
     System.out.printf("Sum 16: %s%n", Integer.toHexString(sum_16));
 
   }
