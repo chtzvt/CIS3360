@@ -1,5 +1,5 @@
 
 The highest forms of understanding we can achieve are laughter and human compass
-ion.  ― Richard Feynman
-
- 8 bit checksum is       38 for all  106 chars
+ion.  - Richard Feynman
+XX
+32 bit checksum is 749f7f72 for all  108 chars
