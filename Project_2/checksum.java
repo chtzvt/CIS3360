@@ -1,7 +1,7 @@
 /*
  * CIS3360 - Spring 2018
  * Security in Computing - Assignment 2
- * Submitted by: Charlton Trezevant and Alexander Cote
+ * Submitted by: Charlton Trezevant
  */
 
 import java.util.*;
@@ -40,7 +40,7 @@ public class checksum {
               break;
               
             default:
-              values[j] =input[i] & 0xFF;
+              values[j] = input[i] & 0xFF;
           }
           
           j++;
@@ -61,7 +61,6 @@ public class checksum {
     
   }
   
-
   // manages retrieval of source texts from the filesystem
   private static class FileHandler {
     private FileHandler(){
@@ -156,8 +155,7 @@ public class checksum {
     
     int checksum = ChecksumCalculator.calcFromString(padded_text, sum_size);
     
-    System.out.printf("%d bit checksum is %8x for all %4d chars%n", sum_size, checksum, padded_text.length());
-    System.out.printf("%n");
+    System.out.printf("%2d bit checksum is %8x for all %4d chars%n", sum_size, checksum, padded_text.length());
     
     System.exit(0);
   }
