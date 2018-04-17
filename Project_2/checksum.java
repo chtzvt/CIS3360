@@ -150,11 +150,16 @@ public class checksum {
     
     String padded_text = InputFormatter.addPadding(file_contents, sum_size / 8);
     
+    System.out.printf("%n");
     OutputFormatter.printBlockOutput(padded_text);
+    System.out.printf("%n");
     
     int checksum = ChecksumCalculator.calcFromString(padded_text, sum_size);
     
-    System.out.printf("sum_size: %d%n%x%n", sum_size,  checksum);
+    System.out.printf("%d bit checksum is %8x for all %4d chars%n", sum_size, checksum, padded_text.length());
+    System.out.printf("%n");
+    
+    System.exit(0);
   }
   
 }
