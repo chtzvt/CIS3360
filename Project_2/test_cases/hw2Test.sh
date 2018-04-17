@@ -61,21 +61,6 @@ eval $EXE in18A.txt 32 >s18A-Output32.txt
 diff s18A-Output32.txt s18A-Base32.txt
 
 
-echo "Case #4 - 8 bit checksum"
-eval $EXE inRF2.txt 8 >sRF2-Output8.txt
-diff sRF2-Output8.txt sRF2-Base8.txt
-
-
-echo "Case #4 - 16 bit checksum"
-eval $EXE inRF2.txt 16 >sRF2-Output16.txt
-diff sRF2-Output16.txt sRF2-Base16.txt
-
-
-echo "Case #4 - 32 bit checksum"
-eval $EXE inRF2.txt 32 >sRF2-Output32.txt
-diff sRF2-Output32.txt sRF2-Base32.txt
-
-
 echo "Case #5 - 8 bit checksum"
 eval $EXE inWC2.txt 8 >sWC2-Output8.txt
 diff sWC2-Output8.txt sWC2-Base8.txt
