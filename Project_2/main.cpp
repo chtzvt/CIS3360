@@ -121,7 +121,7 @@ int y;
 				pointer2++;
 			} while (*pointer2);
 			characterCnt=strlen(string);
-			printf("%s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
+			printf("%2s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
 
 
 
@@ -408,7 +408,7 @@ int y;
 				pointer2++;
 			} while (*pointer2);
 
-			printf("%s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
+			printf("%2s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
 
 
 		break;
@@ -870,7 +870,7 @@ int y;
 				pointer2++;
 			} while (*pointer2);
 
-			printf(" %s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
+			printf("%2s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
 
 
 			break;
