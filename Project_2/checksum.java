@@ -65,6 +65,9 @@ public class checksum {
       for(int val : sum_values)
         sum += val;
       
+      System.out.print(sum_values.toString());
+      System.out.printf(">>> SUM: %d (or %x hex), or %d (%x hex) when masked)<<<", sum, sum, sum & (int)(Math.pow(2, sum_size) - 1), sum & (int)(Math.pow(2, sum_size) - 1));
+      
       return sum & (int)(Math.pow(2, sum_size) - 1);
     }
     
