@@ -33,7 +33,7 @@ public class checksum {
               break;
               
             case 32:
-              checksum_values[j] = (int)((input[i] & 0xFF) << 24) | ((input[i + 1]  & 0xFF) << 16) | ((input[i + 2] & 0xFF) << 8) | ((input[i + 3] & 0xFF) << 0);
+              checksum_values[j] = ((input[i] << 24) | (input[i + 1] << 16) | (input[i + 2] << 8) | input[i + 3]) & 0xFFFFFFFF;
               break;
               
             default:
@@ -181,7 +181,6 @@ public class checksum {
     
     // Calculate and print our checksum
     int checksum = ChecksumCalculator.calcFromString(padded_text, sum_size);
-    System.out.print(checksum);
     System.out.printf("%2d bit checksum is %8x for all %4d chars%n", sum_size, checksum, padded_text.length());
     
     System.exit(0);
