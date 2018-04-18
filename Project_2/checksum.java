@@ -29,7 +29,7 @@ public class checksum {
         if(validateCheckSize(sum_size) == false)
           throw new IllegalArgumentException("The requested checksum size is not valid.");
         
-        int[] sum_values = Bitmath.chunkBytes(input, sum_size);
+        int[] sum_values = Bitmath.packBytes(input, sum_size);
         int sum = 0;
         
         for(int val : sum_values)
@@ -54,7 +54,7 @@ public class checksum {
       // in `input` into groups that are correctly sized in proportion to the size of the requested checksum.
       // As an example, a 16 bit checksum would use 2 such bytes (16 bits per value) of input at a time, while a 32 bit one
       // would use 4 (32 bits per value).
-      private static int[] chunkBytes(byte[] input, int sum_size){
+      private static int[] packBytes(byte[] input, int sum_size){
         int sum_val_width = sum_size / 8;
         int[] checksum_values = new int[input.length / sum_val_width];
         int j = 0;
@@ -80,7 +80,7 @@ public class checksum {
       }
       
       // This method will apply a bitmask to the final sum computed from adding all sum_values
-      // returned by chunkBytes. The number of bits masked off by this method is determined
+      // returned by packBytes. The number of bits masked off by this method is determined
       // automatically by the size of the checksum requested.
       private static int maskFinalSum(int sum, int sum_size){
         switch(sum_size){
@@ -181,16 +181,17 @@ public class checksum {
   }
   
   public static void main(String[] args){
+    int sum_size = 0;
     
-    if(args.length != 2){
+    try {
+      sum_size = Integer.parseInt(args[1]);
+      
+      if(ChecksumCalculator.Bitmath.validateCheckSize(sum_size) == false){
+        System.err.printf("Valid checksum sizes are 8, 16, or 32%n");
+        System.exit(1);
+      }
+    } catch(Exception e){
       System.err.printf("Usage: java checksum <file name> <check size>");
-      System.exit(1);
-    }
-  
-    int sum_size = Integer.parseInt(args[1]);
-    
-    if(ChecksumCalculator.Bitmath.validateCheckSize(sum_size) == false){
-      System.err.printf("Valid checksum sizes are 8, 16, or 32%n");
       System.exit(1);
     }
         
