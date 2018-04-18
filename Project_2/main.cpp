@@ -120,7 +120,7 @@ int y;
 				counter2 = (counter2 << 1) | b;
 				pointer2++;
 			} while (*pointer2);
-			characterCnt=strlen(string);
+			unsigned long characterCnt=strlen(string);
 			printf("%2s bit checksum is %8lx for all %4d chars\n", argv[2], counter2, characterCnt);
 
 
@@ -137,7 +137,7 @@ int y;
 		}
 			strcpy(string, givemestring(argv[1]));
 
-			characterCnt=strlen(string);
+			unsigned long characterCnt=strlen(string);
 			if(characterCnt%2==1){
 				string[characterCnt]='X';
 				characterCnt++;
@@ -422,7 +422,7 @@ int y;
 			}
 			strcpy(string, givemestring(argv[1]));
 
-			characterCnt=strlen(string);
+			unsigned long characterCnt=strlen(string);
 			k=1;
 			while(k!=0){
 				k=characterCnt%4;
