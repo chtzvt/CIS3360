@@ -27,7 +27,7 @@ public class checksum {
       public static int calculateChecksum(byte[] input, int sum_size){
         
         if(validateCheckSize(sum_size) == false)
-          return 0;
+          throw new IllegalArgumentException("The requested checksum size is not valid.");
         
         int[] sum_values = Bitmath.chunkBytes(input, sum_size);
         int sum = 0;
@@ -182,14 +182,18 @@ public class checksum {
   
   public static void main(String[] args){
     
-    // Determine the validity of the given checksum size
+    if(args.length != 2){
+      System.err.printf("Usage: java checksum <file name> <check size>");
+      System.exit(1);
+    }
+  
     int sum_size = Integer.parseInt(args[1]);
     
     if(ChecksumCalculator.Bitmath.validateCheckSize(sum_size) == false){
       System.err.printf("Valid checksum sizes are 8, 16, or 32%n");
       System.exit(1);
     }
-    
+        
     // Load the source text file, and pad it appropriately
     String file_contents = FileHandler.readFile(args[0]);
     String padded_text = InputFormatter.addPadding(file_contents, sum_size / 8);
@@ -202,7 +206,7 @@ public class checksum {
     // Calculate and print our checksum
     int checksum = ChecksumCalculator.calcFromString(padded_text, sum_size);
     System.out.printf("%2d bit checksum is %8x for all %4d chars%n", sum_size, checksum, padded_text.length());
-    
+      
     System.exit(0);
   }
   
